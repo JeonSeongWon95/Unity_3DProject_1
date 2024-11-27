@@ -11,8 +11,8 @@ public class PlayerCamera : MonoBehaviour
 
     [Header("Camera Settings")]
     private float mCameraSmoothSpeed = 1;
-    [SerializeField] float mUpAndDownRotationSpeed = 60;
-    [SerializeField] float mLeftAndRightRotationSpeed = 60;
+    [SerializeField] float mUpAndDownRotationSpeed = 100;
+    [SerializeField] float mLeftAndRightRotationSpeed = 100;
     [SerializeField] float mMaximumPivot = 60;
     [SerializeField] float mMinimumPivot = -30;
     [SerializeField] float mCameraCollsionRadius = 0.2f;

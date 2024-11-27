@@ -6,10 +6,13 @@ using UnityEngine.SceneManagement;
 public class PlayerInputManager : MonoBehaviour
 {
     public static PlayerInputManager Instance;
+    public PlayerManager mPlayerManager;
     PlayerControl mPlayercontrol;
 
     [Header("PLAYER MOVEMENT INPUT")]
     [SerializeField] Vector2 mMovement;
+    [SerializeField] bool IsWalk = false;
+    public float mMovementAmount;
     public float mVerticalInput;
     public float mHorizontalInput;
 
@@ -18,7 +21,8 @@ public class PlayerInputManager : MonoBehaviour
     public float mCameraVerticalInput;
     public float mCameraHorizontalInput;
 
-
+    [Header("PLAYER ACTION INPUT")]
+    [SerializeField] bool IsDodge = false;
 
 
     private void Awake()
@@ -72,6 +76,21 @@ public class PlayerInputManager : MonoBehaviour
                 mCameraMovement = i.ReadValue<Vector2>();
             };
 
+            mPlayercontrol.PlayerActions.Walk.started += i =>
+            {
+                IsWalk = true;
+            };
+
+            mPlayercontrol.PlayerActions.Walk.canceled += i =>
+            {
+                IsWalk = false;
+            };
+
+            mPlayercontrol.PlayerActions.Dodge.performed += i =>
+            {
+                IsDodge = true;
+            };
+
             mPlayercontrol.Enable();
         }
     }
@@ -93,14 +112,39 @@ public class PlayerInputManager : MonoBehaviour
 
     private void Update()
     {
+
+        HandleAllInputs();
+    }
+
+    private void HandleAllInputs() 
+    {
         HandleMovementInput();
         HandleCameraMovementInput();
+        HandleDodgeInput();
     }
 
     private void HandleMovementInput() 
     {
         mVerticalInput = mMovement.y;
         mHorizontalInput = mMovement.x;
+
+        mMovementAmount = Mathf.Clamp01(Mathf.Abs(mVerticalInput) + Mathf.Abs(mHorizontalInput));
+
+        if (IsWalk)
+        {
+            mMovementAmount = 0.5f;
+            mPlayerManager.mPlayerLocomotionManager.ChangeSpeed(3);
+        }
+        else 
+        {
+            mPlayerManager.mPlayerLocomotionManager.ChangeSpeed(6);
+        }
+
+        if (mPlayerManager == null)
+            return;
+
+        mPlayerManager.mPlayerAnimatorManager.UpdateAnimatorValues(0, mMovementAmount);
+
     }
 
     private void HandleCameraMovementInput()
@@ -109,5 +153,14 @@ public class PlayerInputManager : MonoBehaviour
 
         mCameraVerticalInput = mCameraMovement.x;
         mCameraHorizontalInput = mCameraMovement.y;
+    }
+
+    private void HandleDodgeInput() 
+    {
+        if (IsDodge) 
+        {
+            IsDodge = false;
+            mPlayerManager.mPlayerLocomotionManager.AttemptToPerfotmDodge();
+        }
     }
 }

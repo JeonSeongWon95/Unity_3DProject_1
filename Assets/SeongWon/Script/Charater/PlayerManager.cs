@@ -2,13 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : CharaterManager
+public class PlayerManager : CharacterManager
 {
-    PlayerLocomotionManager mPlayerLocomotionManager;
+    [HideInInspector] public PlayerLocomotionManager mPlayerLocomotionManager;
+    [HideInInspector] public PlayerAnimatorManager mPlayerAnimatorManager;
+
     protected override void Awake()
     {
         base.Awake();
         mPlayerLocomotionManager = GetComponent<PlayerLocomotionManager>();
+        mPlayerAnimatorManager = GetComponent<PlayerAnimatorManager>();
     }
 
     protected override void Update()
@@ -38,6 +41,7 @@ public class PlayerManager : CharaterManager
         if (IsOwner) 
         {
             PlayerCamera.Instance.mPlayerManager = this;
+            PlayerInputManager.Instance.mPlayerManager = this;
         }
     }
 }
