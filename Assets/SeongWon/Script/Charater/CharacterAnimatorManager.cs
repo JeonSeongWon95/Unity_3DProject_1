@@ -7,17 +7,31 @@ public class CharacterAnimatorManager : MonoBehaviour
 {
     CharacterManager mCharaterManager;
 
+    int vertical;
+    int horizontal;
+
     protected virtual void Awake()
     {
         mCharaterManager = GetComponent<CharacterManager>();
+        horizontal = Animator.StringToHash("Horizontal");
+        vertical = Animator.StringToHash("Vertical");
+
     }
 
-    public void UpdateAnimatorValues(float horizontalvalue, float verticalvalue) 
+    public void UpdateAnimatorValues(float horizontalvalue, float verticalvalue, bool IsSprint) 
     {
         if (mCharaterManager.mAnimator != null)
         {
-            mCharaterManager.mAnimator.SetFloat("Horizontal", horizontalvalue, 0.1f, Time.deltaTime);
-            mCharaterManager.mAnimator.SetFloat("Vertical", verticalvalue, 0.1f, Time.deltaTime);
+            float horizontalAmount = horizontalvalue;
+            float verticalAmount = verticalvalue;
+
+            if (IsSprint) 
+            {
+                verticalAmount = 2;
+            }
+
+            mCharaterManager.mAnimator.SetFloat(horizontal, horizontalAmount, 0.1f, Time.deltaTime);
+            mCharaterManager.mAnimator.SetFloat(vertical, verticalAmount, 0.1f, Time.deltaTime);
         }
     }
 

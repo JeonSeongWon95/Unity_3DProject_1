@@ -9,6 +9,7 @@ public class PlayerUIManager : MonoBehaviour
 
     [Header("NETWORK JOIN")]
     [SerializeField] bool StartGameAsClient;
+    [SerializeField] public PlayerUIHUDManager mPlayerUIHUDManager;
 
     private void Awake()
     {

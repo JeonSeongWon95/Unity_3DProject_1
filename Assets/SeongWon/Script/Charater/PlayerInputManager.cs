@@ -11,7 +11,6 @@ public class PlayerInputManager : MonoBehaviour
 
     [Header("PLAYER MOVEMENT INPUT")]
     [SerializeField] Vector2 mMovement;
-    [SerializeField] bool IsWalk = false;
     public float mMovementAmount;
     public float mVerticalInput;
     public float mHorizontalInput;
@@ -23,6 +22,8 @@ public class PlayerInputManager : MonoBehaviour
 
     [Header("PLAYER ACTION INPUT")]
     [SerializeField] bool IsDodge = false;
+    [SerializeField] bool IsWalk = false;
+    [SerializeField] bool IsSprint = false;
 
 
     private void Awake()
@@ -91,6 +92,15 @@ public class PlayerInputManager : MonoBehaviour
                 IsDodge = true;
             };
 
+            mPlayercontrol.PlayerActions.Sprint.performed += i =>
+            {
+                IsSprint = true;
+            };
+            mPlayercontrol.PlayerActions.Sprint.canceled += i =>
+            {
+                IsSprint = false;
+            };
+
             mPlayercontrol.Enable();
         }
     }
@@ -121,6 +131,7 @@ public class PlayerInputManager : MonoBehaviour
         HandleMovementInput();
         HandleCameraMovementInput();
         HandleDodgeInput();
+        HandleSprintInput();
     }
 
     private void HandleMovementInput() 
@@ -135,7 +146,12 @@ public class PlayerInputManager : MonoBehaviour
             mMovementAmount = 0.5f;
             mPlayerManager.mPlayerLocomotionManager.ChangeSpeed(3);
         }
-        else 
+        else if (IsSprint) 
+        {
+            mMovementAmount = 2.0f;
+            mPlayerManager.mPlayerLocomotionManager.ChangeSpeed(9);
+        }
+        else
         {
             mPlayerManager.mPlayerLocomotionManager.ChangeSpeed(6);
         }
@@ -143,7 +159,8 @@ public class PlayerInputManager : MonoBehaviour
         if (mPlayerManager == null)
             return;
 
-        mPlayerManager.mPlayerAnimatorManager.UpdateAnimatorValues(0, mMovementAmount);
+        mPlayerManager.mPlayerAnimatorManager.UpdateAnimatorValues(0, mMovementAmount, 
+            mPlayerManager.mPlayerNetworkManager.mNetworkIsSprint.Value);
 
     }
 
@@ -161,6 +178,18 @@ public class PlayerInputManager : MonoBehaviour
         {
             IsDodge = false;
             mPlayerManager.mPlayerLocomotionManager.AttemptToPerfotmDodge();
+        }
+    }
+
+    private void HandleSprintInput() 
+    {
+        if (IsSprint)
+        {
+            mPlayerManager.mPlayerLocomotionManager.HandleSprinting();
+        }
+        else 
+        {
+            mPlayerManager.mPlayerNetworkManager.mNetworkIsSprint.Value = false;
         }
     }
 }

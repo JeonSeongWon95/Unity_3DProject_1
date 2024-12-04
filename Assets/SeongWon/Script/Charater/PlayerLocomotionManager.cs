@@ -14,10 +14,13 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     private Vector3 mMoveDirection;
     private Vector3 mTargetLocation;
     [SerializeField] float mSpeed = 6;
+    [SerializeField] float mSpeedSprint = 8.0f;
     [SerializeField] float mRotateSpeed = 15;
+    [SerializeField] int mSprintStaminaCost = 2;
 
     [Header("DODGE")]
     private Vector3 mRollDirection;
+    private float mDodgeStaminaCost = 25;
 
     protected override void Awake()
     {
@@ -41,7 +44,8 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             mVerticalMovement = mPlayerManamger.mCharaterNetworkManager.mNetworkAnimatorVerticalParameter.Value;
             mMovementAmount = mPlayerManamger.mCharaterNetworkManager.mNetworkAnimatorMoveAmountParameter.Value;
 
-            mPlayerManamger.mPlayerAnimatorManager.UpdateAnimatorValues(0, mMovementAmount);
+            mPlayerManamger.mPlayerAnimatorManager.UpdateAnimatorValues(0, mMovementAmount,
+                mPlayerManamger.mPlayerNetworkManager.mNetworkIsSprint.Value);
         }
     }
     public void HandleAllMovement()
@@ -70,7 +74,14 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         mMoveDirection.Normalize();
         mMoveDirection.y = 0;
 
-        mPlayerManamger.mCharaterController.Move(mMoveDirection * mSpeed * Time.deltaTime);
+        if (mPlayerManamger.mPlayerNetworkManager.mNetworkIsSprint.Value)
+        {
+            mPlayerManamger.mCharaterController.Move(mMoveDirection * mSpeedSprint * Time.deltaTime);
+        }
+        else
+        {
+            mPlayerManamger.mCharaterController.Move(mMoveDirection * mSpeed * Time.deltaTime);
+        }
     }
 
     private void HandleRotateMovement()
@@ -106,6 +117,9 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         if (mPlayerManamger.IsPerformingAction)
             return;
 
+        if (mPlayerManamger.mPlayerNetworkManager.mNetworkCurrentStamina.Value <= 0)
+            return;
+
         if (mMovementAmount > 0)
         {
             mRollDirection = PlayerCamera.Instance.mCamera.transform.forward * PlayerInputManager.Instance.mVerticalInput;
@@ -118,6 +132,35 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
             mPlayerManamger.mPlayerAnimatorManager.PlayTargetActionAnimation("RollForward", true, true);
         }
+
+        mPlayerManamger.mPlayerNetworkManager.mNetworkCurrentStamina.Value -= mDodgeStaminaCost;
     }
 
+    public void HandleSprinting() 
+    {
+        if (mPlayerManamger.IsPerformingAction) 
+        {
+            mPlayerManamger.mPlayerNetworkManager.mNetworkIsSprint.Value = false;
+        }
+
+        if (mPlayerManamger.mPlayerNetworkManager.mNetworkCurrentStamina.Value <= 0)
+        {
+            mPlayerManamger.mPlayerNetworkManager.mNetworkIsSprint.Value = false;
+            return;
+        }
+
+        if (mMovementAmount >= 0.5f)
+        {
+            mPlayerManamger.mPlayerNetworkManager.mNetworkIsSprint.Value = true;
+        }
+        else 
+        {
+            mPlayerManamger.mPlayerNetworkManager.mNetworkIsSprint.Value = false;
+        }
+
+        if (mPlayerManamger.mPlayerNetworkManager.mNetworkIsSprint.Value) 
+        {
+            mPlayerManamger.mPlayerNetworkManager.mNetworkCurrentStamina.Value -= mSprintStaminaCost * Time.deltaTime;
+        }
+    }
 }

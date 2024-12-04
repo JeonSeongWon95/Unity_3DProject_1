@@ -80,6 +80,9 @@ PrefabInstance:
       addedObject: {fileID: 2864800899870961891}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: de13a7420582ded45a8d7d3f96889aca, type: 3}
       insertIndex: -1
+      addedObject: {fileID: 1098615153131991229}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: de13a7420582ded45a8d7d3f96889aca, type: 3}
+      insertIndex: -1
       addedObject: {fileID: -3451900003478771844}
   m_SourcePrefab: {fileID: 100100000, guid: de13a7420582ded45a8d7d3f96889aca, type: 3}
 --- !u!1 &650226281852377672 stripped
@@ -128,6 +131,7 @@ MonoBehaviour:
   CanMove: 1
   mPlayerLocomotionManager: {fileID: 0}
   mPlayerAnimatorManager: {fileID: 0}
+  mPlayerNetworkManager: {fileID: 0}
 --- !u!114 &8669601744527272858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,6 +148,7 @@ MonoBehaviour:
   mHorizontalMovement: 0
   mMovementAmount: 0
   mSpeed: 6
+  mSpeedSprint: 8
   mRotateSpeed: 15
 --- !u!143 &3419875560076071292
 CharacterController:
@@ -196,6 +201,8 @@ MonoBehaviour:
     m_InternalValue: 0
   mNetworkAnimatorMoveAmountParameter:
     m_InternalValue: 0
+  mNetworkIsSprint:
+    m_InternalValue: 0
 --- !u!114 &2864800899870961891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +213,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 08dbb4d3e1a9d764d92431b0f5fabcad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1098615153131991229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650226281852377672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7ac7ce0edb6b764e94146243e6c3a3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!82 &-3451900003478771844

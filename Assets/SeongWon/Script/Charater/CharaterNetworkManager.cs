@@ -26,6 +26,18 @@ public class CharaterNetworkManager : NetworkBehaviour
     public NetworkVariable<float> mNetworkAnimatorMoveAmountParameter = new NetworkVariable<float>(0,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
+    [Header("Flags")]
+    public NetworkVariable<bool> mNetworkIsSprint = new NetworkVariable<bool>(false,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+    [Header("Status")]
+    public NetworkVariable<int> mNetworkEndurence = new NetworkVariable<int>(1,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<float> mNetworkCurrentStamina = new NetworkVariable<float>(0,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<int> mNetworkMaxStamina = new NetworkVariable<int>(0,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
     protected virtual void Awake() 
     {
         mCharacterManager = GetComponent<CharacterManager>();
