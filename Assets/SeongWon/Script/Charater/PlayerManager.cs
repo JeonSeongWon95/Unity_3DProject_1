@@ -65,4 +65,24 @@ public class PlayerManager : CharacterManager
 
         }
     }
+
+    public void SaveGameDataToCurrentCharacterData(ref CharacterSaveData NewCharacterData) 
+    {
+        NewCharacterData.mCharacterName = mPlayerNetworkManager.mCharacterName.Value.ToString();
+        NewCharacterData.mPositionX = transform.position.x;
+        NewCharacterData.mPositionZ = transform.position.z;
+        NewCharacterData.mPositionY = transform.position.y;
+        
+    }
+
+    public void LoadGameDataToCurrentCharacterData(ref CharacterSaveData NewCharacterData) 
+    {
+        mPlayerNetworkManager.mCharacterName.Value = NewCharacterData.mCharacterName;
+
+        Vector3 NewPosition = new Vector3(NewCharacterData.mPositionX, NewCharacterData.mPositionY,
+            NewCharacterData.mPositionZ);
+
+        transform.position = NewPosition;
+
+    }
 }
