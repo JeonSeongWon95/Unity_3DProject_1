@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class WorldSaveGameManager : MonoBehaviour
 {
     public static WorldSaveGameManager Instance;
-    [SerializeField] PlayerManager mPlayerManager;
+    public PlayerManager mPlayerManager;
 
     [Header("Save/Load")]
     [SerializeField] bool IsSave;
@@ -106,10 +106,25 @@ public class WorldSaveGameManager : MonoBehaviour
 
     }
 
-    public void CreateNewGame() 
+    public void AttempToCreateNewGame() 
     {
-        DecideCharacterFileNameBaseOnCurrentCharacterSlot(mCurrentCharacterSlot);
-        mCurrentCharacterData = new CharacterSaveData();
+        mSaveFileDataWriter = new SaveFileDataWriter();
+        mSaveFileDataWriter.mSaveDataDirectoryPath = Application.persistentDataPath;
+
+        for (int i = 0; i < (int)CharacterSlot.END - 1; ++i)
+        {
+            mSaveFileDataWriter.mSaveFileName = DecideCharacterFileNameBaseOnCurrentCharacterSlot((CharacterSlot)i);
+
+            if (!mSaveFileDataWriter.CheckToSeeIfFileExists())
+            {
+                mCurrentCharacterSlot = (CharacterSlot)i;
+                mCurrentCharacterData = new CharacterSaveData();
+                StartCoroutine(LoadWorldScene());
+                return;
+            }
+        }
+
+        TitleScreenManager.Instance.DisplayNoFreeCharacterSlotPopUp();
     }
 
     public void LoadGame() 
@@ -150,11 +165,25 @@ public class WorldSaveGameManager : MonoBehaviour
     public IEnumerator LoadWorldScene() 
     {
         AsyncOperation loadOperation = SceneManager.LoadSceneAsync(mWorldSceneIndex);
+        mPlayerManager.LoadGameDataToCurrentCharacterData(ref mCurrentCharacterData);
+
         yield return null;
     }
 
     public int GetWorldSceneIndex() 
     {
         return mWorldSceneIndex;
+    }
+
+    public void DeleteSaveSlot() 
+    {
+        mFileName = DecideCharacterFileNameBaseOnCurrentCharacterSlot(mCurrentCharacterSlot);
+        mSaveFileDataWriter = new SaveFileDataWriter();
+        mSaveFileDataWriter.mSaveDataDirectoryPath = Application.persistentDataPath;
+        mSaveFileDataWriter.mSaveFileName = mFileName;
+        mSaveFileDataWriter.DeleteSaveFile();
+
+        TitleScreenManager.Instance.CloseLoadGameMenu();
+        TitleScreenManager.Instance.OpenLoadGameMenu();
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerManager : CharacterManager
 {
@@ -47,6 +48,7 @@ public class PlayerManager : CharacterManager
         {
             PlayerCamera.Instance.mPlayerManager = this;
             PlayerInputManager.Instance.mPlayerManager = this;
+            WorldSaveGameManager.Instance.mPlayerManager = this;
 
             mPlayerNetworkManager.mNetworkCurrentStamina.OnValueChanged += (OldValue, NewValue) =>
             {
@@ -68,6 +70,7 @@ public class PlayerManager : CharacterManager
 
     public void SaveGameDataToCurrentCharacterData(ref CharacterSaveData NewCharacterData) 
     {
+        NewCharacterData.mSceneIndex = SceneManager.GetActiveScene().buildIndex;
         NewCharacterData.mCharacterName = mPlayerNetworkManager.mCharacterName.Value.ToString();
         NewCharacterData.mPositionX = transform.position.x;
         NewCharacterData.mPositionZ = transform.position.z;

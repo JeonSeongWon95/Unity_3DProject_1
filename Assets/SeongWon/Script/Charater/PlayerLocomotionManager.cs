@@ -21,6 +21,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     [Header("DODGE")]
     private Vector3 mRollDirection;
     private float mDodgeStaminaCost = 25;
+    private float mJumpStaminaCost = 10;
 
     protected override void Awake()
     {
@@ -136,6 +137,22 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         mPlayerManamger.mPlayerNetworkManager.mNetworkCurrentStamina.Value -= mDodgeStaminaCost;
     }
 
+    public void AttemptToPerfotmJump() 
+    {
+        if (mPlayerManamger.IsPerformingAction)
+            return;
+
+        if (mPlayerManamger.mPlayerNetworkManager.mNetworkCurrentStamina.Value <= 0)
+            return;
+
+        if (mPlayerManamger.IsJumping || mPlayerManamger.IsGround)
+            return;
+
+        mPlayerManamger.mPlayerAnimatorManager.PlayTargetActionAnimation("Jump_Up", false);
+        mPlayerManamger.IsJumping = true;
+        mPlayerManamger.mPlayerNetworkManager.mNetworkCurrentStamina.Value -= mJumpStaminaCost;
+    }
+
     public void HandleSprinting() 
     {
         if (mPlayerManamger.IsPerformingAction) 
@@ -162,5 +179,10 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         {
             mPlayerManamger.mPlayerNetworkManager.mNetworkCurrentStamina.Value -= mSprintStaminaCost * Time.deltaTime;
         }
+    }
+
+    public void ApplyJumpingVelocity() 
+    {
+
     }
 }

@@ -37,4 +37,25 @@ public class UI_Character_Save_Slot : MonoBehaviour
         }
 
     }
+
+    public void LoadGameFromCharacterSlot() 
+    {
+        WorldSaveGameManager.Instance.mCurrentCharacterSlot = mCharacterSlot;
+
+        if (TitleScreenManager.Instance.IsDeleteMode())
+        {
+            TitleScreenManager.Instance.DisplayDeleteSaveSlotPopUp();
+            TitleScreenManager.Instance.SetIsDeleteMode(false);
+        }
+        else
+        {
+            TitleScreenManager.Instance.gameObject.SetActive(false);
+            WorldSaveGameManager.Instance.LoadGame();
+        }
+    }
+
+    public void SelectCurrentSlot() 
+    {
+        TitleScreenManager.Instance.SelectCharacterSlot(mCharacterSlot);
+    }
 }

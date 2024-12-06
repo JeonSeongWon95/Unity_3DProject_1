@@ -24,6 +24,7 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] bool IsDodge = false;
     [SerializeField] bool IsWalk = false;
     [SerializeField] bool IsSprint = false;
+    [SerializeField] bool IsJump = false;
 
 
     private void Awake()
@@ -92,6 +93,11 @@ public class PlayerInputManager : MonoBehaviour
                 IsDodge = true;
             };
 
+            mPlayercontrol.PlayerActions.Jump.performed += i =>
+            {
+                IsJump = true;
+            };
+
             mPlayercontrol.PlayerActions.Sprint.performed += i =>
             {
                 IsSprint = true;
@@ -131,6 +137,7 @@ public class PlayerInputManager : MonoBehaviour
         HandleMovementInput();
         HandleCameraMovementInput();
         HandleDodgeInput();
+        HandleJumpInput();
         HandleSprintInput();
     }
 
@@ -178,6 +185,15 @@ public class PlayerInputManager : MonoBehaviour
         {
             IsDodge = false;
             mPlayerManager.mPlayerLocomotionManager.AttemptToPerfotmDodge();
+        }
+    }
+
+    private void HandleJumpInput()
+    {
+        if (IsJump)
+        {
+            IsJump = false;
+            mPlayerManager.mPlayerLocomotionManager.AttemptToPerfotmJump();
         }
     }
 

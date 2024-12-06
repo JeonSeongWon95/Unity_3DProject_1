@@ -13,6 +13,8 @@ public class CharacterManager : NetworkBehaviour
     [Header("FLAGS")]
     public bool IsPerformingAction = false;
     public bool ApplyRootMotion = false;
+    public bool IsJumping = false;
+    public bool IsGround = true;
     public bool CanRotate = true;
     public bool CanMove = true;
 
@@ -26,6 +28,8 @@ public class CharacterManager : NetworkBehaviour
 
     protected virtual void Update() 
     {
+        mAnimator.SetBool("IsGround", IsGround);
+
         if (IsOwner)
         {
             mCharaterNetworkManager.mNetworkPosition.Value = transform.position;

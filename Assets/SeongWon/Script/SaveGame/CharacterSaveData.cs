@@ -6,12 +6,13 @@ using UnityEngine;
 public class CharacterSaveData
 {
     [Header("Character Info")]
-    public string mCharacterName;
+    public string mCharacterName = "Character";
     public float mPositionX;
     public float mPositionY;
     public float mPositionZ;
 
     [Header("Game Info")]
     public float mSecondsPlayed;
+    public int mSceneIndex;
  
 }
