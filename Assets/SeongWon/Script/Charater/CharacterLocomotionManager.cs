@@ -8,7 +8,7 @@ public class CharacterLocomotionManager : MonoBehaviour
 
     [Header("Velocity")]
     [SerializeField] LayerMask mGroundLayer;
-    [SerializeField] float mGravityForce = -5.55f;
+    [SerializeField] protected float mGravityForce = -5.55f;
     [SerializeField] float mGroundCheckSphereRadius = 1;
     [SerializeField] protected Vector3 mYVelocity;
     [SerializeField] protected float mGroundYVelocity = -20;

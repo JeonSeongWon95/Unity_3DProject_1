@@ -44,7 +44,7 @@ public class CharacterAnimatorManager : MonoBehaviour
         mCharaterManager.CanRotate = CanRotate;
         mCharaterManager.CanMove = CanMove;
 
-        mCharaterManager.mCharaterNetworkManager.PlayTargetActionAnimationServerRpc(NetworkManager.Singleton.LocalClientId
+        mCharaterManager.mCharacterNetworkManager.PlayTargetActionAnimationServerRpc(NetworkManager.Singleton.LocalClientId
             ,AnimationName, IsRootMotion);
     }
 }

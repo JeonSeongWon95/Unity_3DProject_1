@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
 
-public class CharaterNetworkManager : NetworkBehaviour
+public class CharacterNetworkManager : NetworkBehaviour
 {
     CharacterManager mCharacterManager;
 

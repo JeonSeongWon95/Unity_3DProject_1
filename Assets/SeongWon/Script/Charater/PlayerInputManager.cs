@@ -147,7 +147,7 @@ public class PlayerInputManager : MonoBehaviour
         mHorizontalInput = mMovement.x;
 
         mMovementAmount = Mathf.Clamp01(Mathf.Abs(mVerticalInput) + Mathf.Abs(mHorizontalInput));
-
+            
         if (IsWalk)
         {
             mMovementAmount = 0.5f;
@@ -165,6 +165,11 @@ public class PlayerInputManager : MonoBehaviour
 
         if (mPlayerManager == null)
             return;
+
+        if (mMovementAmount <= 0)
+        {
+            mMovementAmount = 0;
+        }
 
         mPlayerManager.mPlayerAnimatorManager.UpdateAnimatorValues(0, mMovementAmount, 
             mPlayerManager.mPlayerNetworkManager.mNetworkIsSprint.Value);

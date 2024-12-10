@@ -31,7 +31,7 @@ public class CharacterStatsManager : MonoBehaviour
         if (!mCharacterManager.IsOwner)
             return;
 
-        if (mCharacterManager.mCharaterNetworkManager.mNetworkIsSprint.Value)
+        if (mCharacterManager.mCharacterNetworkManager.mNetworkIsSprint.Value)
             return;
 
         if (mCharacterManager.IsPerformingAction)
@@ -42,15 +42,15 @@ public class CharacterStatsManager : MonoBehaviour
 
         if (mStaminaRegenerationTimer >= mStaminaRegenerationDelay)
         {
-            if (mCharacterManager.mCharaterNetworkManager.mNetworkCurrentStamina.Value < 
-                mCharacterManager.mCharaterNetworkManager.mNetworkMaxStamina.Value)
+            if (mCharacterManager.mCharacterNetworkManager.mNetworkCurrentStamina.Value < 
+                mCharacterManager.mCharacterNetworkManager.mNetworkMaxStamina.Value)
             {
                 mStaminaRegenerationTickTimer += Time.deltaTime;
 
                 if (mStaminaRegenerationTickTimer >= 0.1)
                 {
                     mStaminaRegenerationTickTimer = 0;
-                    mCharacterManager.mCharaterNetworkManager.mNetworkCurrentStamina.Value += mStaminaRegenerationAmount;
+                    mCharacterManager.mCharacterNetworkManager.mNetworkCurrentStamina.Value += mStaminaRegenerationAmount;
                 }
             }
         }

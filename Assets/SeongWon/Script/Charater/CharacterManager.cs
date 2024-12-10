@@ -8,7 +8,7 @@ public class CharacterManager : NetworkBehaviour
 
     [HideInInspector] public CharacterController mCharaterController;
     [HideInInspector] public Animator mAnimator;
-    [HideInInspector] public CharaterNetworkManager mCharaterNetworkManager;
+    [HideInInspector] public CharacterNetworkManager mCharacterNetworkManager;
 
     [Header("FLAGS")]
     public bool IsPerformingAction = false;
@@ -22,7 +22,7 @@ public class CharacterManager : NetworkBehaviour
     {
         DontDestroyOnLoad(this);
         mCharaterController = GetComponent<CharacterController>();
-        mCharaterNetworkManager = GetComponent<CharaterNetworkManager>();
+        mCharacterNetworkManager = GetComponent<CharacterNetworkManager>();
         mAnimator = GetComponent<Animator>();
     }
 
@@ -32,16 +32,16 @@ public class CharacterManager : NetworkBehaviour
 
         if (IsOwner)
         {
-            mCharaterNetworkManager.mNetworkPosition.Value = transform.position;
-            mCharaterNetworkManager.mNetworkRotation.Value = transform.rotation;
+            mCharacterNetworkManager.mNetworkPosition.Value = transform.position;
+            mCharacterNetworkManager.mNetworkRotation.Value = transform.rotation;
         }
         else 
         {
-            transform.position = Vector3.SmoothDamp(transform.position, mCharaterNetworkManager.mNetworkPosition.Value,
-                ref mCharaterNetworkManager.mNetworkPositionVelocity, mCharaterNetworkManager.mNetworkPositionSmoothTime);
+            transform.position = Vector3.SmoothDamp(transform.position, mCharacterNetworkManager.mNetworkPosition.Value,
+                ref mCharacterNetworkManager.mNetworkPositionVelocity, mCharacterNetworkManager.mNetworkPositionSmoothTime);
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, mCharaterNetworkManager.mNetworkRotation.Value,
-                mCharaterNetworkManager.mNetworkRotateSmoothTime);
+            transform.rotation = Quaternion.Slerp(transform.rotation, mCharacterNetworkManager.mNetworkRotation.Value,
+                mCharacterNetworkManager.mNetworkRotateSmoothTime);
         }
     }
 

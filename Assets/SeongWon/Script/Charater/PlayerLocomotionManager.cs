@@ -18,10 +18,16 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     [SerializeField] float mRotateSpeed = 15;
     [SerializeField] int mSprintStaminaCost = 2;
 
+    [Header("JUMP")]
+    private float mJumpStaminaCost = 10;
+    [SerializeField] float mJumpHeight = 2.0f;
+    [SerializeField] Vector3 mJumpDirection;
+    [SerializeField] float mJumpForwardVelocity = 3;
+    [SerializeField] float mJumpFallVelocity = 1.5f;
+
     [Header("DODGE")]
     private Vector3 mRollDirection;
     private float mDodgeStaminaCost = 25;
-    private float mJumpStaminaCost = 10;
 
     protected override void Awake()
     {
@@ -35,15 +41,15 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
         if (mPlayerManamger.IsOwner)
         {
-            mPlayerManamger.mCharaterNetworkManager.mNetworkAnimatorHorizontalParameter.Value = mHorizontalMovement;
-            mPlayerManamger.mCharaterNetworkManager.mNetworkAnimatorVerticalParameter.Value = mVerticalMovement;
-            mPlayerManamger.mCharaterNetworkManager.mNetworkAnimatorMoveAmountParameter.Value = mMovementAmount;
+            mPlayerManamger.mCharacterNetworkManager.mNetworkAnimatorHorizontalParameter.Value = mHorizontalMovement;
+            mPlayerManamger.mCharacterNetworkManager.mNetworkAnimatorVerticalParameter.Value = mVerticalMovement;
+            mPlayerManamger.mCharacterNetworkManager.mNetworkAnimatorMoveAmountParameter.Value = mMovementAmount;
         }
         else
         {
-            mHorizontalMovement = mPlayerManamger.mCharaterNetworkManager.mNetworkAnimatorHorizontalParameter.Value;
-            mVerticalMovement = mPlayerManamger.mCharaterNetworkManager.mNetworkAnimatorVerticalParameter.Value;
-            mMovementAmount = mPlayerManamger.mCharaterNetworkManager.mNetworkAnimatorMoveAmountParameter.Value;
+            mHorizontalMovement = mPlayerManamger.mCharacterNetworkManager.mNetworkAnimatorHorizontalParameter.Value;
+            mVerticalMovement = mPlayerManamger.mCharacterNetworkManager.mNetworkAnimatorVerticalParameter.Value;
+            mMovementAmount = mPlayerManamger.mCharacterNetworkManager.mNetworkAnimatorMoveAmountParameter.Value;
 
             mPlayerManamger.mPlayerAnimatorManager.UpdateAnimatorValues(0, mMovementAmount,
                 mPlayerManamger.mPlayerNetworkManager.mNetworkIsSprint.Value);
@@ -53,6 +59,8 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     {
         HandleGroundedMovement();
         HandleRotateMovement();
+        HandleJumpingMovement();
+        HandleFreeFallMovement();
     }
 
     private void GetMovementInputValues()
@@ -82,6 +90,26 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         else
         {
             mPlayerManamger.mCharaterController.Move(mMoveDirection * mSpeed * Time.deltaTime);
+        }
+    }
+
+    private void HandleJumpingMovement() 
+    {
+        if (mPlayerManamger.IsJumping) 
+        {
+            mPlayerManamger.mCharaterController.Move(mJumpDirection * mJumpForwardVelocity * Time.deltaTime);
+        }
+    }
+
+    private void HandleFreeFallMovement() 
+    {
+        if (!mPlayerManamger.IsGround) 
+        {
+            Vector3 mFreeFallDirection = PlayerCamera.Instance.transform.forward * PlayerInputManager.Instance.mVerticalInput;
+            mFreeFallDirection += PlayerCamera.Instance.transform.right * PlayerInputManager.Instance.mHorizontalInput;
+            mFreeFallDirection.y = 0;
+
+            mPlayerManamger.mCharaterController.Move(mFreeFallDirection * mJumpFallVelocity * Time.deltaTime);
         }
     }
 
@@ -145,12 +173,31 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         if (mPlayerManamger.mPlayerNetworkManager.mNetworkCurrentStamina.Value <= 0)
             return;
 
-        if (mPlayerManamger.IsJumping || mPlayerManamger.IsGround)
+        if (mPlayerManamger.IsJumping || !mPlayerManamger.IsGround)
             return;
 
         mPlayerManamger.mPlayerAnimatorManager.PlayTargetActionAnimation("Jump_Up", false);
         mPlayerManamger.IsJumping = true;
         mPlayerManamger.mPlayerNetworkManager.mNetworkCurrentStamina.Value -= mJumpStaminaCost;
+
+        mJumpDirection = PlayerCamera.Instance.mCamera.transform.forward * PlayerInputManager.Instance.mVerticalInput;
+        mJumpDirection += PlayerCamera.Instance.mCamera.transform.right * PlayerInputManager.Instance.mHorizontalInput;
+
+        if (mJumpDirection != Vector3.zero)
+        {
+            if (mPlayerManamger.mPlayerNetworkManager.mNetworkIsSprint.Value)
+            {
+                mJumpDirection *= 1;
+            }
+            else if (PlayerInputManager.Instance.mMovementAmount > 0.5)
+            {
+                mJumpDirection *= 0.5f;
+            }
+            else if (PlayerInputManager.Instance.mMovementAmount <= 0.5)
+            {
+                mJumpDirection *= 0.25f;
+            }
+        }
     }
 
     public void HandleSprinting() 
@@ -183,6 +230,6 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     public void ApplyJumpingVelocity() 
     {
-
+        mYVelocity.y = Mathf.Sqrt(mJumpHeight * -2 * mGravityForce);
     }
 }
