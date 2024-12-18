@@ -20,5 +20,10 @@ public enum CharacterSlot
     CharacterSlot_08,
     CharacterSlot_09,
     END
-    
+}
+
+public enum WeaponModelSlot 
+{
+    RightHand,
+    LeftHand
 }

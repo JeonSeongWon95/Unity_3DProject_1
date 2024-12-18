@@ -46,6 +46,11 @@ public class PlayerInputManager : MonoBehaviour
 
         SceneManager.activeSceneChanged += OnSceneChange;
         Instance.enabled = false;
+
+        if (mPlayercontrol != null)
+        {
+            mPlayercontrol.Disable();
+        }
     }
 
     private void OnSceneChange(Scene OldScene, Scene NewScene) 
@@ -53,10 +58,21 @@ public class PlayerInputManager : MonoBehaviour
         if (NewScene.buildIndex == WorldSaveGameManager.Instance.GetWorldSceneIndex()) 
         {
             Instance.enabled = true;
+
+            if (mPlayercontrol != null)
+            {
+                mPlayercontrol.Enable();
+            }
         }
         else 
         {
             Instance.enabled = false;
+
+            if (mPlayercontrol != null)
+            {
+                mPlayercontrol.Disable();
+            }
+
         }
 
     }

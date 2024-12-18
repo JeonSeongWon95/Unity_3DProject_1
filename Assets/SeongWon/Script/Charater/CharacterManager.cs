@@ -9,11 +9,16 @@ public class CharacterManager : NetworkBehaviour
     [HideInInspector] public CharacterController mCharaterController;
     [HideInInspector] public Animator mAnimator;
     [HideInInspector] public CharacterNetworkManager mCharacterNetworkManager;
+    [HideInInspector] public CharacterEffectsManager mCharacterEffectsManager;
+    [HideInInspector] public CharacterAnimatorManager mCharacterAnimatorManager;
+
+    [Header("Status")]
+    public NetworkVariable<bool> mIsDead = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Owner);
 
     [Header("FLAGS")]
     public bool IsPerformingAction = false;
     public bool ApplyRootMotion = false;
-    public bool IsJumping = false;
     public bool IsGround = true;
     public bool CanRotate = true;
     public bool CanMove = true;
@@ -24,6 +29,13 @@ public class CharacterManager : NetworkBehaviour
         mCharaterController = GetComponent<CharacterController>();
         mCharacterNetworkManager = GetComponent<CharacterNetworkManager>();
         mAnimator = GetComponent<Animator>();
+        mCharacterEffectsManager = GetComponent<CharacterEffectsManager>();
+        mCharacterAnimatorManager = GetComponent<CharacterAnimatorManager>();
+    }
+
+    protected virtual void Start() 
+    {
+        IgnoreMyOwnColliders();
     }
 
     protected virtual void Update() 
@@ -48,6 +60,54 @@ public class CharacterManager : NetworkBehaviour
     protected virtual void LateUpdate() 
     {
 
+    }
+
+    public virtual IEnumerator ProcessDeathEvent(bool ManuallySelectDeathAnimation = false) 
+    {
+        if (IsOwner) 
+        {
+            mCharacterNetworkManager.mNetworkCurrentHealth.Value = 0;
+            mIsDead.Value = true;
+
+            if (!ManuallySelectDeathAnimation)
+            {
+                mCharacterAnimatorManager.PlayTargetActionAnimation("Death", true);
+            }
+
+        }
+
+
+        yield return new WaitForSeconds(5);
+
+    }
+
+    public virtual void ReviveCharacter() 
+    {
+
+    }
+
+    protected virtual void IgnoreMyOwnColliders() 
+    {
+        Collider mCharacterControllerCollider = GetComponent<Collider>();
+        Collider[] mDamageableCharacterCollider = GetComponentsInChildren<Collider>();
+
+        List<Collider> mIgnoreColliders = new List<Collider>();
+
+        foreach (var Collider in mDamageableCharacterCollider) 
+        {
+            mIgnoreColliders.Add(Collider);
+        }
+
+        mIgnoreColliders.Add(mCharacterControllerCollider);
+
+        foreach (var Collider in mIgnoreColliders)
+        {
+            foreach (var OtherCollider in mIgnoreColliders)
+            {
+                Physics.IgnoreCollision(Collider, OtherCollider, true);
+            }
+
+        }
     }
 
 }

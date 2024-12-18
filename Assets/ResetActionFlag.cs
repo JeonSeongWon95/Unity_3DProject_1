@@ -16,9 +16,13 @@ public class ResetActionFlag : StateMachineBehaviour
 
         mCharacterManager.IsPerformingAction = false;
         mCharacterManager.ApplyRootMotion = false;
-        mCharacterManager.IsJumping = false;
         mCharacterManager.CanRotate = true;
         mCharacterManager.CanMove = true;
+
+        if (mCharacterManager.IsOwner) 
+        {
+            mCharacterManager.mCharacterNetworkManager.mNetworkIsJumping.Value = false;
+        }
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

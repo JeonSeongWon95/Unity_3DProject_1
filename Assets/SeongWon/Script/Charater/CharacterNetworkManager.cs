@@ -29,9 +29,19 @@ public class CharacterNetworkManager : NetworkBehaviour
     [Header("Flags")]
     public NetworkVariable<bool> mNetworkIsSprint = new NetworkVariable<bool>(false,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<bool> mNetworkIsJumping = new NetworkVariable<bool>(false,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     [Header("Status")]
     public NetworkVariable<int> mNetworkEndurence = new NetworkVariable<int>(1,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<int> mNetworkVitality = new NetworkVariable<int>(1,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+    [Header("Resources")]
+    public NetworkVariable<float> mNetworkCurrentHealth = new NetworkVariable<float>(0,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<int> mNetworkMaxHealth = new NetworkVariable<int>(0,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<float> mNetworkCurrentStamina = new NetworkVariable<float>(0,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -41,6 +51,22 @@ public class CharacterNetworkManager : NetworkBehaviour
     protected virtual void Awake() 
     {
         mCharacterManager = GetComponent<CharacterManager>();
+    }
+
+    public void CheckHP(float OldValue, float NewValue) 
+    {
+        if (mNetworkCurrentHealth.Value <= 0) 
+        {
+            StartCoroutine(mCharacterManager.ProcessDeathEvent());
+        }
+
+        if (mCharacterManager.IsOwner) 
+        {
+            if (mNetworkCurrentHealth.Value > mNetworkMaxHealth.Value) 
+            {
+                mNetworkCurrentHealth.Value = mNetworkMaxHealth.Value;
+            }
+        }
     }
 
     [ServerRpc]

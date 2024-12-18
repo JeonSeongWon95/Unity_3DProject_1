@@ -11,6 +11,15 @@ public class CharacterSaveData
     public float mPositionY;
     public float mPositionZ;
 
+    [Header("Character Stats")]
+    public int mVitality;
+    public int mEndurace;
+
+    [Header("Resource")]
+    public float mCurrentHealth;
+    public float mCurrentStamina;
+
+
     [Header("Game Info")]
     public float mSecondsPlayed;
     public int mSceneIndex;

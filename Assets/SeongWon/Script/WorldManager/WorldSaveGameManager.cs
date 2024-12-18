@@ -119,12 +119,20 @@ public class WorldSaveGameManager : MonoBehaviour
             {
                 mCurrentCharacterSlot = (CharacterSlot)i;
                 mCurrentCharacterData = new CharacterSaveData();
-                StartCoroutine(LoadWorldScene());
+                NewGame();
                 return;
             }
         }
 
         TitleScreenManager.Instance.DisplayNoFreeCharacterSlotPopUp();
+    }
+
+    private void NewGame() 
+    {
+        mPlayerManager.mPlayerNetworkManager.mNetworkVitality.Value = 10;
+        mPlayerManager.mPlayerNetworkManager.mNetworkEndurence.Value = 10;
+        SaveGame();
+        StartCoroutine(LoadWorldScene());
     }
 
     public void LoadGame() 

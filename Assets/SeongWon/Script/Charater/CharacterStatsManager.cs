@@ -13,9 +13,28 @@ public class CharacterStatsManager : MonoBehaviour
     private float mStaminaRegenerationTickTimer = 0.0f;
     private float mStaminaRegenerationAmount = 2.0f;
 
+/*    [Header("Health Regeneration")]
+    private float mHealthRegenerationTimer = 0.0f;
+    private float mHealthRegenerationDelay = 2.0f;
+    private float mHealthRegenerationTickTimer = 0.0f;
+    private float mHealthRegenerationAmount = 2.0f;*/
+
     protected virtual void Awake() 
     {
         mCharacterManager = GetComponent<CharacterManager>();
+    }
+
+    protected virtual void Start()
+    {
+        
+    }
+
+    public int CalculateHealthBaseOnVitality(int Vitality)
+    {
+        float Health = 0.0f;
+        Health = Vitality * 15.0f;
+
+        return Mathf.RoundToInt(Health);
     }
 
     public int CalculateStaminaBaseOnEndurance(int endurance)
@@ -65,4 +84,5 @@ public class CharacterStatsManager : MonoBehaviour
             mStaminaRegenerationTimer = 0;
         }
     }
+
 }

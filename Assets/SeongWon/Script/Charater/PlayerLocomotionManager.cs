@@ -95,7 +95,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     private void HandleJumpingMovement() 
     {
-        if (mPlayerManamger.IsJumping) 
+        if (mPlayerManamger.mPlayerNetworkManager.mNetworkIsJumping.Value) 
         {
             mPlayerManamger.mCharaterController.Move(mJumpDirection * mJumpForwardVelocity * Time.deltaTime);
         }
@@ -173,11 +173,11 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         if (mPlayerManamger.mPlayerNetworkManager.mNetworkCurrentStamina.Value <= 0)
             return;
 
-        if (mPlayerManamger.IsJumping || !mPlayerManamger.IsGround)
+        if (mPlayerManamger.mPlayerNetworkManager.mNetworkIsJumping.Value || !mPlayerManamger.IsGround)
             return;
 
         mPlayerManamger.mPlayerAnimatorManager.PlayTargetActionAnimation("Jump_Up", false);
-        mPlayerManamger.IsJumping = true;
+        mPlayerManamger.mPlayerNetworkManager.mNetworkIsJumping.Value = true;
         mPlayerManamger.mPlayerNetworkManager.mNetworkCurrentStamina.Value -= mJumpStaminaCost;
 
         mJumpDirection = PlayerCamera.Instance.mCamera.transform.forward * PlayerInputManager.Instance.mVerticalInput;
