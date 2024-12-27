@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d61502bcd2624844ebb369ec68747672, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mMeleeDamageCollider: {fileID: 0}
+  mMeleeDamageCollider: {fileID: 3287520935258314194}
 --- !u!1 &7099432990932727637
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,9 +230,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26c1b408286cb324c9df0ef922f2686a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mDamageCollider: {fileID: 3209500239740661177}
   mPhysicalDamage: 0
   mMagicDamage: 0
   mFireDamage: 0
   mLightningDamage: 0
   mHolyDamage: 0
   mCharacterCausingDamage: {fileID: 0}
+  Light_Attack_01_Modifier: 0

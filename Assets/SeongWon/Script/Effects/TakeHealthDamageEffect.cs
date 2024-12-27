@@ -42,6 +42,9 @@ public class TakeHealthDamageEffect : InstantCharacterEffect
             return;
 
         CalculateDamage(NewCharacterManager);
+        PlayDirectionBasedDamageAnimation(NewCharacterManager);
+        PlayDamageVFX(NewCharacterManager);
+        PlayDamageSFX(NewCharacterManager);
     }
 
     private void CalculateDamage(CharacterManager NewCharacterManager) 
@@ -63,5 +66,72 @@ public class TakeHealthDamageEffect : InstantCharacterEffect
         }
 
         NewCharacterManager.mCharacterNetworkManager.mNetworkCurrentHealth.Value -= mFinalDamageDealt;
+    }
+
+    private void PlayDamageVFX(CharacterManager characterManager) 
+    {
+        characterManager.mCharacterEffectsManager.PlayBloodSplatterVFX(mContactPoint);
+    }
+
+    private void PlayDamageSFX(CharacterManager characterManager) 
+    {
+        AudioClip physicalDamageSFX = null;
+
+        if (characterManager == null)
+        {
+            Debug.Log("characterManager is null");
+            return;
+        }
+
+        if (characterManager.mCharacterSoundFXManager == null)
+        {
+            Debug.Log("mCharacterSoundFXManager is null");
+            return;
+        }
+
+        physicalDamageSFX = WorldSoundFXManager.Instance.ChooseRandomSFXFromArray(
+            WorldSoundFXManager.Instance.PhysicsDamageSFX);
+
+        characterManager.mCharacterSoundFXManager.PlaySoundFX(physicalDamageSFX);
+    }
+
+    private void PlayDirectionBasedDamageAnimation(CharacterManager characterManager) 
+    {
+        if (!characterManager.IsOwner)
+            return;
+
+        mPoiseIsBroken = false;
+
+        if (mAngleHitForm >= 145 && mAngleHitForm <= 180)
+        {
+            mDamageAnimation = characterManager.mCharacterAnimatorManager.GetRandomAnimationFromList(
+                characterManager.mCharacterAnimatorManager.Forward_Medium_Damage);
+        }
+        else if (mAngleHitForm <= -145 && mAngleHitForm >= -180)
+        {
+            mDamageAnimation = characterManager.mCharacterAnimatorManager.GetRandomAnimationFromList(
+                characterManager.mCharacterAnimatorManager.Forward_Medium_Damage);
+        }
+        else if (mAngleHitForm >= -45 && mAngleHitForm <= 45)
+        {
+            mDamageAnimation = characterManager.mCharacterAnimatorManager.GetRandomAnimationFromList(
+                characterManager.mCharacterAnimatorManager.Backward_Medium_Damage);
+        }
+        else if (mAngleHitForm >= 45 && mAngleHitForm <= 144) 
+        {
+            mDamageAnimation = characterManager.mCharacterAnimatorManager.GetRandomAnimationFromList(
+                characterManager.mCharacterAnimatorManager.Right_Medium_Damage);
+        }
+        else if (mAngleHitForm >= -144 && mAngleHitForm <= -45)
+        {
+            mDamageAnimation = characterManager.mCharacterAnimatorManager.GetRandomAnimationFromList(
+                characterManager.mCharacterAnimatorManager.Left_Medium_Damage);
+        }
+
+        if (mPoiseIsBroken) 
+        {
+            characterManager.mCharacterAnimatorManager.LastDamageAnimationPlayed = mDamageAnimation;
+            characterManager.mCharacterAnimatorManager.PlayTargetActionAnimation(mDamageAnimation, true);
+        }
     }
 }

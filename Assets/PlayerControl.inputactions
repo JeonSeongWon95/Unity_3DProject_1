@@ -124,6 +124,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "NomalAttack",
+                    "type": "Button",
+                    "id": "8d8f48bf-f12a-41fb-8e03-f860ec1d3909",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Tap",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Walk",
                     "type": "Button",
                     "id": "8abd8c08-9545-47c7-a181-aee31afbf192",
@@ -184,6 +193,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6ee781c5-2253-4b87-84f8-f7e6f0b3607d",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NomalAttack",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

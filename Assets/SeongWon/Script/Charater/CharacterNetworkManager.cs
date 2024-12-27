@@ -70,20 +70,38 @@ public class CharacterNetworkManager : NetworkBehaviour
     }
 
     [ServerRpc]
-    public void PlayTargetActionAnimationServerRpc(ulong ClinetID, string AnimationName, bool ApplyRootMotion)
+    public void PlayTargetActionAnimationServerRpc(ulong ClientID, string AnimationName, bool ApplyRootMotion)
     {
         if (IsServer)
         {
-            PlayTargetActionAnimationClientRpc(ClinetID, AnimationName, ApplyRootMotion);
+            PlayTargetActionAnimationClientRpc(ClientID, AnimationName, ApplyRootMotion);
+        }
+    }
+
+    [ServerRpc]
+    public void PlayTargetAttackActionAnimationServerRpc(ulong ClientID, string AnimationName, bool ApplyRootMotion)
+    {
+        if (IsServer)
+        {
+            PlayTargetAttackActionAnimationClientRpc(ClientID, AnimationName, ApplyRootMotion);
         }
     }
 
     [ClientRpc]
-    public void PlayTargetActionAnimationClientRpc(ulong ClinetID, string AnimationName, bool ApplyRootMotion) 
+    public void PlayTargetActionAnimationClientRpc(ulong ClientID, string AnimationName, bool ApplyRootMotion) 
     {
-        if (ClinetID != NetworkManager.Singleton.LocalClientId) 
+        if (ClientID != NetworkManager.Singleton.LocalClientId) 
         {
             PerformActionAnimationFromServer(AnimationName, ApplyRootMotion);
+        }
+    }
+
+    [ClientRpc]
+    public void PlayTargetAttackActionAnimationClientRpc(ulong ClientID, string AnimationName, bool ApplyRootMotion)
+    {
+        if (ClientID != NetworkManager.Singleton.LocalClientId)
+        {
+            PerformAttackActionAnimationFromServer(AnimationName, ApplyRootMotion);
         }
     }
 
@@ -91,5 +109,55 @@ public class CharacterNetworkManager : NetworkBehaviour
     {
         mCharacterManager.mAnimator.CrossFade(AnimationName, 0.2f);
         mCharacterManager.ApplyRootMotion = ApplyRootMotion;
+    }
+
+    private void PerformAttackActionAnimationFromServer(string AnimationName, bool ApplyRootMotion)
+    {
+        mCharacterManager.mAnimator.CrossFade(AnimationName, 0.2f);
+        mCharacterManager.ApplyRootMotion = ApplyRootMotion;
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void NotifyTheServerOfCharacterDamageServerRPC(ulong DamagedCharacter, ulong CusingDamageCharacter, float PhysicsDamage, 
+        float MagicDamage, float FireDamage, float HolyDamage, float PoiseDamage, float AngleHitFrom,
+        float ContactPointX, float ContactPointY, float ContactPointZ) 
+    {
+        if (IsServer)
+        {
+            NotifyTheServerOfCharacterDamageClientRPC(DamagedCharacter, CusingDamageCharacter, PhysicsDamage, MagicDamage, FireDamage, HolyDamage,
+                PoiseDamage, AngleHitFrom, ContactPointX, ContactPointY, ContactPointZ);
+        }
+    }
+
+    [ClientRpc]
+    public void NotifyTheServerOfCharacterDamageClientRPC(ulong DamagedCharacter, ulong CusingDamageCharacter, 
+        float PhysicsDamage, float MagicDamage, float FireDamage, float HolyDamage, float PoiseDamage,
+        float AngleHitFrom, float ContactPointX, float ContactPointY, float ContactPointZ)
+    {
+        ProcessCharacterDamageFromServer(DamagedCharacter, CusingDamageCharacter, PhysicsDamage, MagicDamage, FireDamage, HolyDamage,
+            PoiseDamage, AngleHitFrom, ContactPointX, ContactPointY, ContactPointZ);   
+    }
+
+    private void ProcessCharacterDamageFromServer(ulong DamagedCharacter, ulong CusingDamageCharacter, 
+        float PhysicsDamage, float MagicDamage, float FireDamage, float HolyDamage, float PoiseDamage,
+        float AngleHitFrom, float ContactPointX, float ContactPointY, float ContactPointZ)
+    {
+        CharacterManager DamagedCharacterManager = NetworkManager.Singleton.SpawnManager
+            .SpawnedObjects[DamagedCharacter].gameObject.GetComponent<CharacterManager>();
+
+        CharacterManager CusingDamageCharacterManager = NetworkManager.Singleton.SpawnManager
+            .SpawnedObjects[CusingDamageCharacter].gameObject.GetComponent<CharacterManager>();
+
+        TakeHealthDamageEffect damageEffect = Instantiate(WorldCharacterEffectsManager.Instance.mTakeHealthDamageEffect);
+        damageEffect.mPhysicalDamage = PhysicsDamage;
+        damageEffect.mMagicDamage = MagicDamage;
+        damageEffect.mFireDamage = FireDamage;
+        damageEffect.mHolyDamage = HolyDamage;
+        damageEffect.mPoiseDamage = PoiseDamage;
+        damageEffect.mAngleHitForm = AngleHitFrom;
+        damageEffect.mContactPoint = new Vector3(ContactPointX, ContactPointY, ContactPointZ);
+        damageEffect.mCharacterCauingDamage = CusingDamageCharacterManager;
+
+        DamagedCharacterManager.mCharacterEffectsManager.ProcessInstantEffect(damageEffect);
     }
 }

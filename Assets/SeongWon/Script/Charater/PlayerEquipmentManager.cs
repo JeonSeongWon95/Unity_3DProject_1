@@ -59,7 +59,9 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
             mRightHandWeaponModel = Instantiate(mPlayerManager.mPlayerInventoryManager.mCurrentRightWeapon.mWeaponModel);
             mRightSlot.LoadWeaponModel(mRightHandWeaponModel);
             mRightWeaponManager = mRightHandWeaponModel.GetComponent<WeaponManager>();
-            mRightWeaponManager.SetWeaponDamage(mPlayerManager,mPlayerManager.mPlayerInventoryManager.mCurrentRightWeapon);
+
+            mRightWeaponManager.SetWeaponDamage(mPlayerManager,
+                mPlayerManager.mPlayerInventoryManager.mCurrentRightWeapon);
         }
     }
 
@@ -155,5 +157,29 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
             return;
 
         mPlayerManager.mPlayerAnimatorManager.PlayTargetActionAnimation("Swap_Left_Weapon_01", false);
+    }
+
+    public void OpenDamageCollider() 
+    {
+        if (mPlayerManager.mPlayerNetworkManager.mIsUsingRightHand.Value) 
+        {
+            mRightWeaponManager.mMeleeDamageCollider.EnableDamageCollider();
+        }
+        else if (mPlayerManager.mPlayerNetworkManager.mIsUsingLeftHand.Value)
+        {
+            mLeftWeaponManager.mMeleeDamageCollider.EnableDamageCollider();
+        }
+    }
+
+    public void CloseDamageCollider()
+    {
+        if (mPlayerManager.mPlayerNetworkManager.mIsUsingRightHand.Value)
+        {
+            mRightWeaponManager.mMeleeDamageCollider.DisableDamageCollider();
+        }
+        else if (mPlayerManager.mPlayerNetworkManager.mIsUsingLeftHand.Value)
+        {
+            mLeftWeaponManager.mMeleeDamageCollider.DisableDamageCollider();
+        }
     }
 }

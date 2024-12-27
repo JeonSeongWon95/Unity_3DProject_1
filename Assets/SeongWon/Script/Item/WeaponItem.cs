@@ -13,7 +13,7 @@ public class WeaponItem : Item
     public int mIntREQ = 0;
     public int mFaitREQ = 0;
 
-    [Header("Weapon Bae Damage")]
+    [Header("Weapon Base Damage")]
     public int mPhysicalDamage = 0;
     public int mMagicDamage = 0;
     public int mFireDamage = 0;
@@ -23,6 +23,14 @@ public class WeaponItem : Item
     [Header("Weapon Poise")]
     public float mPoiseDamage = 10;
 
+    [Header("Attacks Modifiers")]
+    public float Light_Attack_01_Modifier = 1.1f;
+
+    [Header("Weapon Actions")]
+    public WeaponItemAction OH_NomalAction;
+
+
     [Header("Stamina Cost")]
     public int mBaseStaminaCost = 20;
+    public float mLightAttackStaminaCostMultiplier = 0.9f;
 }

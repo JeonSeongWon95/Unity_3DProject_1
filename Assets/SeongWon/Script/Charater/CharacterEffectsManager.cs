@@ -15,4 +15,13 @@ public class CharacterEffectsManager : MonoBehaviour
     {
         NewEffect.ProcessEffect(mCharacterManager);
     }
+
+    public void PlayBloodSplatterVFX(Vector3 ContactPoint) 
+    {
+        if (WorldCharacterEffectsManager.Instance.BloodSplatterVFX != null) 
+        {
+            GameObject BloodSplatter = Instantiate(WorldCharacterEffectsManager.Instance.BloodSplatterVFX,
+                ContactPoint, Quaternion.identity);
+        }
+    }
 }

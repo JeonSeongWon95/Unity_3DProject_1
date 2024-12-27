@@ -13,11 +13,20 @@ public class PlayerNetworkManager : CharacterNetworkManager
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     [Header("Equipment")]
-    public NetworkVariable<int> mCurrentRightHandWeaponID = new NetworkVariable<int>(0, 
+    public NetworkVariable<int> mCurrentRightHandWeaponID = new NetworkVariable<int>(0,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
-    public NetworkVariable<int> mCurrentLeftHandWeaponID = new NetworkVariable<int>(0, 
+    public NetworkVariable<int> mCurrentLeftHandWeaponID = new NetworkVariable<int>(0,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+    public NetworkVariable<int> mCurrentWeaponBeingUsed = new NetworkVariable<int>(0,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+    public NetworkVariable<bool> mIsUsingRightHand = new NetworkVariable<bool>(false,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+    public NetworkVariable<bool> mIsUsingLeftHand = new NetworkVariable<bool>(false,
+     NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     protected override void Awake()
     {
@@ -26,7 +35,21 @@ public class PlayerNetworkManager : CharacterNetworkManager
         mPlayerManager = GetComponent<PlayerManager>();
     }
 
-    public void SetHealthValue(int OldVitality, int NewVitality) 
+    public void SetCharacterActionHand(bool NewIsUsingRightHand)
+    {
+        if (NewIsUsingRightHand)
+        {
+            mIsUsingRightHand.Value = true;
+            mIsUsingLeftHand.Value = false;
+        }
+        else
+        {
+            mIsUsingRightHand.Value = false;
+            mIsUsingLeftHand.Value = true;
+        }
+    }
+
+    public void SetHealthValue(int OldVitality, int NewVitality)
     {
         mNetworkMaxHealth.Value = mPlayerManager.mPlayerStatsManager.CalculateHealthBaseOnVitality(NewVitality);
         PlayerUIManager.Instance.mPlayerUIHUDManager.SetMaxHealthValue(mNetworkMaxHealth.Value);
@@ -40,7 +63,7 @@ public class PlayerNetworkManager : CharacterNetworkManager
         mNetworkCurrentStamina.Value = mNetworkMaxStamina.Value;
     }
 
-    public void OnCurrentRightHandWeaponIDChange(int OldID, int NewID) 
+    public void OnCurrentRightHandWeaponIDChange(int OldID, int NewID)
     {
         WeaponItem NewWeapon = Instantiate(WorldItemDataBase.Instance.GetWeaponByID(NewID));
         mPlayerManager.mPlayerInventoryManager.mCurrentRightWeapon = NewWeapon;
@@ -53,4 +76,45 @@ public class PlayerNetworkManager : CharacterNetworkManager
         mPlayerManager.mPlayerInventoryManager.mCurrentLeftWeapon = NewWeapon;
         mPlayerManager.mPlayerEquipmentManager.LoadLeftWeapon();
     }
+
+    public void OnCurrentWeaponBeingUsedIDChange(int OldID, int NewID)
+    {
+        WeaponItem NewWeapon = Instantiate(WorldItemDataBase.Instance.GetWeaponByID(NewID));
+        mPlayerManager.mPlayerCombatManager.mCurrentWeaponBeingUsed = NewWeapon;
+        mPlayerManager.mPlayerEquipmentManager.LoadLeftWeapon();
+    }
+
+    [ServerRpc]
+    public void NotifyTheServerOfWeaponActionServerRPC(ulong ClientID, int ActionID, int WeaponID) 
+    {
+        if (IsServer) 
+        {
+            NotifyTheServerOfWeaponActionClientRPC(ClientID, ActionID, WeaponID);
+        }
+    }
+
+    [ClientRpc]
+    private void NotifyTheServerOfWeaponActionClientRPC(ulong ClientID, int ActionID, int WeaponID) 
+    {
+        if (ClientID != NetworkManager.Singleton.LocalClientId) 
+        {
+            PlayWeaponAction(ActionID, WeaponID);
+        }
+    }
+
+    private void PlayWeaponAction(int ActionID, int WeaponID) 
+    {
+        WeaponItemAction mWeaponItemAction = WorldActionManager.Instance.GetWeaponItemActionByID(WeaponID);
+
+        if (mWeaponItemAction != null)
+        {
+            mWeaponItemAction.AttemptToPerformAction(mPlayerManager, WorldItemDataBase.Instance.GetWeaponByID(WeaponID));
+        }
+        else 
+        {
+
+        }
+    }
+
+
 }

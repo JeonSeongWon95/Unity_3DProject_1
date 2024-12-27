@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 using UnityEngine.SceneManagement;
 
 public class PlayerManager : CharacterManager
@@ -15,6 +16,7 @@ public class PlayerManager : CharacterManager
     [HideInInspector] public PlayerStatsManager mPlayerStatsManager;
     [HideInInspector] public PlayerInventoryManager mPlayerInventoryManager;
     [HideInInspector] public PlayerEquipmentManager mPlayerEquipmentManager;
+    [HideInInspector] public PlayerCombatManager mPlayerCombatManager;
 
     protected override void Awake()
     {
@@ -25,6 +27,7 @@ public class PlayerManager : CharacterManager
         mPlayerStatsManager = GetComponent<PlayerStatsManager>();
         mPlayerInventoryManager = GetComponent<PlayerInventoryManager>();
         mPlayerEquipmentManager = GetComponent<PlayerEquipmentManager>();
+        mPlayerCombatManager = GetComponent<PlayerCombatManager>();
     }
 
     protected override void Update()
@@ -52,6 +55,7 @@ public class PlayerManager : CharacterManager
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallBack;
 
         if (IsOwner) 
         {
@@ -81,6 +85,9 @@ public class PlayerManager : CharacterManager
 
         mPlayerNetworkManager.mCurrentLeftHandWeaponID.OnValueChanged +=
             mPlayerNetworkManager.OnCurrentLeftHandWeaponIDChange;
+
+        mPlayerNetworkManager.mCurrentWeaponBeingUsed.OnValueChanged +=
+            mPlayerNetworkManager.OnCurrentWeaponBeingUsedIDChange;
 
         if (IsOwner && !IsServer) 
         {
@@ -140,6 +147,20 @@ public class PlayerManager : CharacterManager
 
     }
 
+    private void OnClientConnectedCallBack(ulong ClientID) 
+    {
+        if (!IsServer && IsOwner) 
+        {
+            foreach (var Player in GameSessionManager.Instance.Players) 
+            {
+                if (Player != this) 
+                {
+                    Player.LoadOtherPlayerCharacterWhenJoiningServer();
+                }
+            }
+        }
+    }
+
     public override void ReviveCharacter()
     {
         base.ReviveCharacter();
@@ -151,6 +172,12 @@ public class PlayerManager : CharacterManager
 
             mPlayerAnimatorManager.PlayTargetActionAnimation("Empty", false);
         }
+    }
+
+    private void LoadOtherPlayerCharacterWhenJoiningServer() 
+    {
+        mPlayerNetworkManager.OnCurrentRightHandWeaponIDChange(0, mPlayerNetworkManager.mCurrentRightHandWeaponID.Value);
+        mPlayerNetworkManager.OnCurrentLeftHandWeaponIDChange(0, mPlayerNetworkManager.mCurrentLeftHandWeaponID.Value);
     }
 
     private void DebugMenu() 

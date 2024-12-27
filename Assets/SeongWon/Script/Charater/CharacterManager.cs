@@ -11,6 +11,8 @@ public class CharacterManager : NetworkBehaviour
     [HideInInspector] public CharacterNetworkManager mCharacterNetworkManager;
     [HideInInspector] public CharacterEffectsManager mCharacterEffectsManager;
     [HideInInspector] public CharacterAnimatorManager mCharacterAnimatorManager;
+    [HideInInspector] public CharacterCombatManager mCharacterCombatManager;
+    [HideInInspector] public CharacterSoundFXManager mCharacterSoundFXManager;
 
     [Header("Status")]
     public NetworkVariable<bool> mIsDead = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone,
@@ -31,6 +33,8 @@ public class CharacterManager : NetworkBehaviour
         mAnimator = GetComponent<Animator>();
         mCharacterEffectsManager = GetComponent<CharacterEffectsManager>();
         mCharacterAnimatorManager = GetComponent<CharacterAnimatorManager>();
+        mCharacterCombatManager = GetComponent<CharacterCombatManager>();
+        mCharacterSoundFXManager = GetComponent<CharacterSoundFXManager>();
     }
 
     protected virtual void Start() 

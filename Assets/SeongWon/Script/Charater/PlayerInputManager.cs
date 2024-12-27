@@ -25,6 +25,7 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] bool IsWalk = false;
     [SerializeField] bool IsSprint = false;
     [SerializeField] bool IsJump = false;
+    [SerializeField] bool NomalAttack = false;
 
 
     private void Awake()
@@ -123,6 +124,11 @@ public class PlayerInputManager : MonoBehaviour
                 IsSprint = false;
             };
 
+            mPlayercontrol.PlayerActions.NomalAttack.performed += i =>
+            {
+                NomalAttack = true;
+            };
+
             mPlayercontrol.Enable();
         }
     }
@@ -155,6 +161,7 @@ public class PlayerInputManager : MonoBehaviour
         HandleDodgeInput();
         HandleJumpInput();
         HandleSprintInput();
+        HandNomalAttackInput();
     }
 
     private void HandleMovementInput() 
@@ -227,6 +234,21 @@ public class PlayerInputManager : MonoBehaviour
         else 
         {
             mPlayerManager.mPlayerNetworkManager.mNetworkIsSprint.Value = false;
+        }
+    }
+
+    private void HandNomalAttackInput() 
+    {
+        if (NomalAttack) 
+        {
+
+            NomalAttack = false;
+
+            mPlayerManager.mPlayerNetworkManager.SetCharacterActionHand(true);
+
+            mPlayerManager.mPlayerCombatManager.PerformWeaponBasedAction(
+                mPlayerManager.mPlayerInventoryManager.mCurrentRightWeapon.OH_NomalAction,
+                mPlayerManager.mPlayerInventoryManager.mCurrentRightWeapon);
         }
     }
 }

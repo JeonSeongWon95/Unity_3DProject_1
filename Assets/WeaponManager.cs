@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
 {
-    [SerializeField] MeleeWeaponDamageCollider mMeleeDamageCollider;
+    public MeleeWeaponDamageCollider mMeleeDamageCollider;
 
     private void Awake()
     {
-        mMeleeDamageCollider = GetComponent<MeleeWeaponDamageCollider>();
+        mMeleeDamageCollider = GetComponentInChildren<MeleeWeaponDamageCollider>();
     }
 
     public void SetWeaponDamage(CharacterManager DamageCasuingCharacter, WeaponItem NewWeaponItem) 
@@ -19,5 +19,6 @@ public class WeaponManager : MonoBehaviour
         mMeleeDamageCollider.mHolyDamage = NewWeaponItem.mHolyDamage;
         mMeleeDamageCollider.mFireDamage = NewWeaponItem.mFireDamage;
         mMeleeDamageCollider.mLightningDamage = NewWeaponItem.mLightningDamage;
+        mMeleeDamageCollider.Light_Attack_01_Modifier = NewWeaponItem.Light_Attack_01_Modifier;
     }
 }
