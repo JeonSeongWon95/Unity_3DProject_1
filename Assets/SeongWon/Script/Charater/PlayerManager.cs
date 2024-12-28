@@ -89,6 +89,9 @@ public class PlayerManager : CharacterManager
         mPlayerNetworkManager.mCurrentWeaponBeingUsed.OnValueChanged +=
             mPlayerNetworkManager.OnCurrentWeaponBeingUsedIDChange;
 
+        mPlayerNetworkManager.mNetworkIsLockOn.OnValueChanged += mPlayerNetworkManager.OnIsLockedOnChanged;
+        mPlayerNetworkManager.mCurrentTargetNetworkObjectID.OnValueChanged += mPlayerNetworkManager.LockOnTargetIDChange;
+
         if (IsOwner && !IsServer) 
         {
             LoadGameDataToCurrentCharacterData(ref WorldSaveGameManager.Instance.mCurrentCharacterData);
@@ -167,6 +170,7 @@ public class PlayerManager : CharacterManager
 
         if (IsOwner) 
         {
+            mIsDead.Value = false;
             mPlayerNetworkManager.mNetworkCurrentHealth.Value = mPlayerNetworkManager.mNetworkMaxHealth.Value;
             mPlayerNetworkManager.mNetworkCurrentStamina.Value = mPlayerNetworkManager.mNetworkMaxStamina.Value;
 
@@ -178,6 +182,11 @@ public class PlayerManager : CharacterManager
     {
         mPlayerNetworkManager.OnCurrentRightHandWeaponIDChange(0, mPlayerNetworkManager.mCurrentRightHandWeaponID.Value);
         mPlayerNetworkManager.OnCurrentLeftHandWeaponIDChange(0, mPlayerNetworkManager.mCurrentLeftHandWeaponID.Value);
+
+        if (mPlayerNetworkManager.mNetworkIsLockOn.Value) 
+        {
+            mPlayerNetworkManager.LockOnTargetIDChange(0, mPlayerNetworkManager.mCurrentTargetNetworkObjectID.Value);
+        }
     }
 
     private void DebugMenu() 

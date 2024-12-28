@@ -46,6 +46,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mCurrentWeaponModel: {fileID: 0}
   mWeaponModelSlot: 1
+--- !u!1 &8319305892306620344
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7938100202169160299}
+  m_Layer: 7
+  m_Name: Line Cast Option 2(Chest)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7938100202169160299
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8319305892306620344}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.13, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4329437051427500145}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &416434026222593817
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -565,6 +596,9 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 4166454749331330920, guid: de13a7420582ded45a8d7d3f96889aca, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7938100202169160299}
     - targetCorrespondingSourceObject: {fileID: 6877955994513321247, guid: de13a7420582ded45a8d7d3f96889aca, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7373387903749841869}
@@ -805,6 +839,8 @@ MonoBehaviour:
   mNetworkIsSprint:
     m_InternalValue: 0
   mNetworkIsJumping:
+    m_InternalValue: 0
+  mNetworkIsLockOn:
     m_InternalValue: 0
   mNetworkEndurence:
     m_InternalValue: 1
@@ -1126,7 +1162,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06dd466470bcdf444b1ed0e58d34c43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mCurrentTarget: {fileID: 0}
   mCurrentAttackType: 0
+  mLockOnTransform: {fileID: 7938100202169160299}
   mCurrentWeaponBeingUsed: {fileID: 0}
 --- !u!114 &4189869197089904969
 MonoBehaviour:
@@ -1224,6 +1262,11 @@ CapsuleCollider:
   m_Height: 0.5
   m_Direction: 0
   m_Center: {x: -0.3, y: 0, z: 0}
+--- !u!4 &4329437051427500145 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4166454749331330920, guid: de13a7420582ded45a8d7d3f96889aca, type: 3}
+  m_PrefabInstance: {fileID: 416434026222593817}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4536964119406474887 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4957917426184859234, guid: de13a7420582ded45a8d7d3f96889aca, type: 3}

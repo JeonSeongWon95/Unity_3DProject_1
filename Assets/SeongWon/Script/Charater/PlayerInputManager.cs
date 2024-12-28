@@ -27,6 +27,9 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] bool IsJump = false;
     [SerializeField] bool NomalAttack = false;
 
+    [Header("LOCK ON INPUT")]
+    [SerializeField] bool LockOnInput = false;
+
 
     private void Awake()
     {
@@ -128,6 +131,10 @@ public class PlayerInputManager : MonoBehaviour
             {
                 NomalAttack = true;
             };
+            mPlayercontrol.PlayerActions.LockOn.performed += i =>
+            {
+                LockOnInput = true;
+            };
 
             mPlayercontrol.Enable();
         }
@@ -162,6 +169,7 @@ public class PlayerInputManager : MonoBehaviour
         HandleJumpInput();
         HandleSprintInput();
         HandNomalAttackInput();
+        HandleLockOnInput();
     }
 
     private void HandleMovementInput() 
@@ -249,6 +257,40 @@ public class PlayerInputManager : MonoBehaviour
             mPlayerManager.mPlayerCombatManager.PerformWeaponBasedAction(
                 mPlayerManager.mPlayerInventoryManager.mCurrentRightWeapon.OH_NomalAction,
                 mPlayerManager.mPlayerInventoryManager.mCurrentRightWeapon);
+        }
+    }
+
+    private void HandleLockOnInput() 
+    {
+        if (mPlayerManager.mPlayerNetworkManager.mNetworkIsLockOn.Value) 
+        {
+            if (mPlayerManager.mPlayerCombatManager.mCurrentTarget == null)
+                return;
+
+            if (mPlayerManager.mPlayerCombatManager.mCurrentTarget.mIsDead.Value) 
+            {
+                mPlayerManager.mPlayerNetworkManager.mNetworkIsLockOn.Value = false;
+            }
+        }
+
+        if (LockOnInput && mPlayerManager.mPlayerNetworkManager.mNetworkIsLockOn.Value) 
+        {
+            LockOnInput = false;
+            mPlayerManager.mPlayerNetworkManager.mNetworkIsLockOn.Value = false;
+            PlayerCamera.Instance.ClearLockOnTargets();
+            return;
+        }
+
+        if (LockOnInput && !mPlayerManager.mPlayerNetworkManager.mNetworkIsLockOn.Value) 
+        {
+            LockOnInput = false;
+            PlayerCamera.Instance.HandleLocationgLockOnTargets();
+
+            if (PlayerCamera.Instance.mNearestLockOnTarget != null) 
+            {
+                mPlayerManager.mPlayerCombatManager.SetTarget(PlayerCamera.Instance.mNearestLockOnTarget);
+                mPlayerManager.mPlayerNetworkManager.mNetworkIsLockOn.Value = true;
+            }
         }
     }
 }

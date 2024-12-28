@@ -77,18 +77,6 @@ public class TakeHealthDamageEffect : InstantCharacterEffect
     {
         AudioClip physicalDamageSFX = null;
 
-        if (characterManager == null)
-        {
-            Debug.Log("characterManager is null");
-            return;
-        }
-
-        if (characterManager.mCharacterSoundFXManager == null)
-        {
-            Debug.Log("mCharacterSoundFXManager is null");
-            return;
-        }
-
         physicalDamageSFX = WorldSoundFXManager.Instance.ChooseRandomSFXFromArray(
             WorldSoundFXManager.Instance.PhysicsDamageSFX);
 
@@ -98,6 +86,9 @@ public class TakeHealthDamageEffect : InstantCharacterEffect
     private void PlayDirectionBasedDamageAnimation(CharacterManager characterManager) 
     {
         if (!characterManager.IsOwner)
+            return;
+
+        if (characterManager.mIsDead.Value)
             return;
 
         mPoiseIsBroken = false;

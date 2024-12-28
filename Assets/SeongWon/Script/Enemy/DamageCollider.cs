@@ -48,7 +48,9 @@ public class DamageCollider : MonoBehaviour
         damageEffect.mMagicDamage = mMagicDamage;
         damageEffect.mLightningDamage = mLightningDamage;
         damageEffect.mHolyDamage = mHolyDamage;
-        damageEffect.mLightningDamage = mLightningDamage;
+        damageEffect.mFireDamage = mFireDamage;
+        damageEffect.mContactPoint = mContactPoint;
+        damageEffect.mAngleHitForm = Vector3.SignedAngle(transform.forward, DamageTarget.transform.forward, Vector3.up);
 
         DamageTarget.mCharacterEffectsManager.ProcessInstantEffect(damageEffect);
     }

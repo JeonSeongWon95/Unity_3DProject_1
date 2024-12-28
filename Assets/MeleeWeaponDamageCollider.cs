@@ -29,6 +29,8 @@ public class MeleeWeaponDamageCollider : DamageCollider
 
             mContactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
 
+            Debug.Log("0");
+
             DamageTarget(mDamageTarget);
         }
     }
@@ -37,6 +39,8 @@ public class MeleeWeaponDamageCollider : DamageCollider
     {
         if (mCahractersDamaged.Contains(DamageTarget))
             return;
+
+        Debug.Log("1");
 
         mCahractersDamaged.Add(DamageTarget);
 
@@ -57,7 +61,6 @@ public class MeleeWeaponDamageCollider : DamageCollider
             default:
                 break;
         }
-        //DamageTarget.mCharacterEffectsManager.ProcessInstantEffect(damageEffect);
 
         if (mCharacterCausingDamage.IsOwner) 
         {

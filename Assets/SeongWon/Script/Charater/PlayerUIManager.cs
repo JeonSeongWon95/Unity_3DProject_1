@@ -17,6 +17,7 @@ public class PlayerUIManager : MonoBehaviour
         if (Instance == null) 
         {
             Instance = this;
+            HidenUI();
         }
         else 
         {
@@ -37,6 +38,18 @@ public class PlayerUIManager : MonoBehaviour
             NetworkManager.Singleton.Shutdown();
             NetworkManager.Singleton.StartClient();
         }
+    }
+
+    public void HidenUI()
+    {
+        RectTransform rectTransform = mPlayerUIHUDManager.GetComponent<RectTransform>();
+        rectTransform.localScale = Vector3.zero;
+    }
+
+    public void ShowUI()
+    {
+        RectTransform rectTransform = mPlayerUIHUDManager.GetComponent<RectTransform>();
+        rectTransform.localScale = Vector3.one;
     }
 
 
