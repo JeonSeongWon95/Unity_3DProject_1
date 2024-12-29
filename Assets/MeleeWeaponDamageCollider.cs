@@ -10,6 +10,8 @@ public class MeleeWeaponDamageCollider : DamageCollider
 
     [Header("Weapon Attack Modifiers")]
     public float Light_Attack_01_Modifier;
+    public float Strong_Attack_01_Modifier;
+    public float Charge_Attack_01_Modifier;
 
     protected override void Awake()
     {
@@ -29,8 +31,6 @@ public class MeleeWeaponDamageCollider : DamageCollider
 
             mContactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
 
-            Debug.Log("0");
-
             DamageTarget(mDamageTarget);
         }
     }
@@ -40,8 +40,6 @@ public class MeleeWeaponDamageCollider : DamageCollider
         if (mCahractersDamaged.Contains(DamageTarget))
             return;
 
-        Debug.Log("1");
-
         mCahractersDamaged.Add(DamageTarget);
 
         TakeHealthDamageEffect damageEffect = Instantiate(WorldCharacterEffectsManager.Instance.mTakeHealthDamageEffect);
@@ -50,6 +48,7 @@ public class MeleeWeaponDamageCollider : DamageCollider
         damageEffect.mLightningDamage = mLightningDamage;
         damageEffect.mHolyDamage = mHolyDamage;
         damageEffect.mLightningDamage = mLightningDamage;
+        damageEffect.mContactPoint = mContactPoint;
         damageEffect.mAngleHitForm = Vector3.SignedAngle(mCharacterCausingDamage.transform.forward,
             DamageTarget.transform.forward, Vector3.up);
 
@@ -57,6 +56,12 @@ public class MeleeWeaponDamageCollider : DamageCollider
         {
             case AttackType.LightAttack01:
                 ApplyAttackDamageModifiers(Light_Attack_01_Modifier, damageEffect);
+                break;
+            case AttackType.StrongAttack01:
+                ApplyAttackDamageModifiers(Strong_Attack_01_Modifier, damageEffect);
+                break;
+            case AttackType.ChargeAttack01:
+                ApplyAttackDamageModifiers(Charge_Attack_01_Modifier, damageEffect);
                 break;
             default:
                 break;

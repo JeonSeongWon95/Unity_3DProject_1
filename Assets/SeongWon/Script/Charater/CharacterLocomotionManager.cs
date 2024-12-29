@@ -15,6 +15,9 @@ public class CharacterLocomotionManager : MonoBehaviour
     [SerializeField] protected float mFallStartYVelocity = -5;
     protected bool IsUsedFallVelocity = false;
     protected float mInAirTimer = 0;
+
+    [Header("Flags")]
+    public bool mIsRolling = false;
     protected virtual void Awake() 
     {
         mCharacterManager = GetComponent<CharacterManager>();

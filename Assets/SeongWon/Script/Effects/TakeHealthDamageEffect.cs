@@ -91,7 +91,7 @@ public class TakeHealthDamageEffect : InstantCharacterEffect
         if (characterManager.mIsDead.Value)
             return;
 
-        mPoiseIsBroken = false;
+        mPoiseIsBroken = true;
 
         if (mAngleHitForm >= 145 && mAngleHitForm <= 180)
         {
@@ -119,10 +119,10 @@ public class TakeHealthDamageEffect : InstantCharacterEffect
                 characterManager.mCharacterAnimatorManager.Left_Medium_Damage);
         }
 
-        if (mPoiseIsBroken) 
-        {
-            characterManager.mCharacterAnimatorManager.LastDamageAnimationPlayed = mDamageAnimation;
-            characterManager.mCharacterAnimatorManager.PlayTargetActionAnimation(mDamageAnimation, true);
-        }
+       if (mPoiseIsBroken) 
+       {
+           characterManager.mCharacterAnimatorManager.LastDamageAnimationPlayed = mDamageAnimation;
+           characterManager.mCharacterAnimatorManager.PlayTargetActionAnimation(mDamageAnimation, true);
+       }
     }
 }

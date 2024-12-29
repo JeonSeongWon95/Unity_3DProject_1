@@ -25,10 +25,18 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] bool IsWalk = false;
     [SerializeField] bool IsSprint = false;
     [SerializeField] bool IsJump = false;
-    [SerializeField] bool NomalAttack = false;
 
     [Header("LOCK ON INPUT")]
     [SerializeField] bool LockOnInput = false;
+    [SerializeField] Vector2 mSeekLeftRingtLockOnTarget;
+    Coroutine mLockOnCoroutine;
+
+    [Header("BUMPER INPUT")]
+    [SerializeField] bool NomalAttack = false;
+    [SerializeField] bool StrongAttack = false;
+
+    [Header("TRIGGER INPUT")]
+    [SerializeField] bool Hold_ChargeAttack = false;
 
 
     private void Awake()
@@ -135,6 +143,20 @@ public class PlayerInputManager : MonoBehaviour
             {
                 LockOnInput = true;
             };
+            mPlayercontrol.PlayerActions.SeekLeftAndRightLockOnTarget.performed += i =>
+            {
+                mSeekLeftRingtLockOnTarget = i.ReadValue<Vector2>();
+            };
+
+            mPlayercontrol.PlayerActions.StrongAttack.performed += i =>
+            {
+                StrongAttack = true;
+            };
+
+            mPlayercontrol.PlayerActions.ChargeAttack.performed += i =>
+            {
+                Hold_ChargeAttack = true;
+            };
 
             mPlayercontrol.Enable();
         }
@@ -170,6 +192,47 @@ public class PlayerInputManager : MonoBehaviour
         HandleSprintInput();
         HandNomalAttackInput();
         HandleLockOnInput();
+        HandleLockOnSwitchInput();
+        HandleStrongAttackInput();
+        HandleChargeAttackInput();
+    }
+
+    private void HandleLockOnSwitchInput() 
+    {
+        if (mSeekLeftRingtLockOnTarget.y == 0)
+            return;
+
+        else if (mSeekLeftRingtLockOnTarget.y > 0)
+        {
+            mSeekLeftRingtLockOnTarget.y = 0;
+
+            if (mPlayerManager.mPlayerNetworkManager.mNetworkIsLockOn.Value) 
+            {
+                PlayerCamera.Instance.HandleLocationgLockOnTargets();
+
+                if (PlayerCamera.Instance.mRightLockOnTarget != null) 
+                {
+                    mPlayerManager.mPlayerCombatManager.SetTarget(PlayerCamera.Instance.mRightLockOnTarget);
+                }
+            }
+
+        }
+        else if (mSeekLeftRingtLockOnTarget.y < 0) 
+        {
+            mSeekLeftRingtLockOnTarget.y = 0;
+
+            if (mPlayerManager.mPlayerNetworkManager.mNetworkIsLockOn.Value)
+            {
+                PlayerCamera.Instance.HandleLocationgLockOnTargets();
+
+                if (PlayerCamera.Instance.mLeftLockOnTarget != null)
+                {
+                    mPlayerManager.mPlayerCombatManager.SetTarget(PlayerCamera.Instance.mLeftLockOnTarget);
+                }
+            }
+
+        }
+ 
     }
 
     private void HandleMovementInput() 
@@ -202,8 +265,16 @@ public class PlayerInputManager : MonoBehaviour
             mMovementAmount = 0;
         }
 
-        mPlayerManager.mPlayerAnimatorManager.UpdateAnimatorValues(0, mMovementAmount, 
-            mPlayerManager.mPlayerNetworkManager.mNetworkIsSprint.Value);
+        if (!mPlayerManager.mPlayerNetworkManager.mNetworkIsLockOn.Value || mPlayerManager.mPlayerNetworkManager.mNetworkIsSprint.Value)
+        {
+            mPlayerManager.mPlayerAnimatorManager.UpdateAnimatorValues(0, mMovementAmount, mPlayerManager.mPlayerNetworkManager.mNetworkIsSprint.Value);
+        }
+        else
+        {
+
+            mPlayerManager.mPlayerAnimatorManager.UpdateAnimatorValues(mHorizontalInput, mVerticalInput,
+                mPlayerManager.mPlayerNetworkManager.mNetworkIsSprint.Value);
+        }
 
     }
 
@@ -249,7 +320,6 @@ public class PlayerInputManager : MonoBehaviour
     {
         if (NomalAttack) 
         {
-
             NomalAttack = false;
 
             mPlayerManager.mPlayerNetworkManager.SetCharacterActionHand(true);
@@ -271,6 +341,12 @@ public class PlayerInputManager : MonoBehaviour
             {
                 mPlayerManager.mPlayerNetworkManager.mNetworkIsLockOn.Value = false;
             }
+
+            if (mLockOnCoroutine != null)
+                StopCoroutine(mLockOnCoroutine);
+
+            mLockOnCoroutine = StartCoroutine(PlayerCamera.Instance.WaitThenFindNewTarget());
+
         }
 
         if (LockOnInput && mPlayerManager.mPlayerNetworkManager.mNetworkIsLockOn.Value) 
@@ -291,6 +367,34 @@ public class PlayerInputManager : MonoBehaviour
                 mPlayerManager.mPlayerCombatManager.SetTarget(PlayerCamera.Instance.mNearestLockOnTarget);
                 mPlayerManager.mPlayerNetworkManager.mNetworkIsLockOn.Value = true;
             }
+        }
+    }
+
+    private void HandleStrongAttackInput()
+    {
+        if (StrongAttack)
+        {
+            StrongAttack = false;
+
+            mPlayerManager.mPlayerNetworkManager.SetCharacterActionHand(true);
+
+            mPlayerManager.mPlayerCombatManager.PerformWeaponBasedAction(
+                mPlayerManager.mPlayerInventoryManager.mCurrentRightWeapon.OH_StrongAction,
+                mPlayerManager.mPlayerInventoryManager.mCurrentRightWeapon);
+        }
+    }
+
+    private void HandleChargeAttackInput()
+    {
+        if (Hold_ChargeAttack)
+        {
+            Hold_ChargeAttack = false;
+            mPlayerManager.mPlayerNetworkManager.SetCharacterActionHand(true);
+
+            mPlayerManager.mPlayerCombatManager.PerformWeaponBasedAction(
+                mPlayerManager.mPlayerInventoryManager.mCurrentRightWeapon.OH_ChargeAction,
+                mPlayerManager.mPlayerInventoryManager.mCurrentRightWeapon);
+
         }
     }
 }

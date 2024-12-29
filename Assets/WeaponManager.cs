@@ -20,5 +20,7 @@ public class WeaponManager : MonoBehaviour
         mMeleeDamageCollider.mFireDamage = NewWeaponItem.mFireDamage;
         mMeleeDamageCollider.mLightningDamage = NewWeaponItem.mLightningDamage;
         mMeleeDamageCollider.Light_Attack_01_Modifier = NewWeaponItem.Light_Attack_01_Modifier;
+        mMeleeDamageCollider.Strong_Attack_01_Modifier = NewWeaponItem.Strong_Attack_01_Modifier;
+        mMeleeDamageCollider.Charge_Attack_01_Modifier = NewWeaponItem.Charge_Attack_01_Modifier;
     }
 }

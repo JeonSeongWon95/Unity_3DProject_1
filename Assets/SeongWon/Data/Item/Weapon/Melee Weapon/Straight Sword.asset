@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mItemName: Straight Sword
   mItemIcon: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  mItemID: 0
+  mItemID: 1
   mItemDescription: A Straight Sword
   mWeaponModel: {fileID: 3494273455596453986, guid: c29f84be534451841b6a53bb5313c028, type: 3}
   mStrengthREQ: 10
@@ -27,5 +27,9 @@ MonoBehaviour:
   mHolyDamage: 0
   mLightningDamage: 0
   mPoiseDamage: 25
+  Light_Attack_01_Modifier: 1.1
   OH_NomalAction: {fileID: 11400000, guid: a6fe9e5599a69a24d9112eca6e100e95, type: 2}
+  OH_StrongAction: {fileID: 11400000, guid: 63851bec1c71fc44b83f838292de7b95, type: 2}
+  OH_ChargeAction: {fileID: 11400000, guid: cb7a90997902db04792ddbb376457391, type: 2}
   mBaseStaminaCost: 20
+  mLightAttackStaminaCostMultiplier: 0.9

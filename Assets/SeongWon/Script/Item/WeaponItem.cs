@@ -25,9 +25,13 @@ public class WeaponItem : Item
 
     [Header("Attacks Modifiers")]
     public float Light_Attack_01_Modifier = 1.1f;
+    public float Strong_Attack_01_Modifier = 1.5f;
+    public float Charge_Attack_01_Modifier = 1.3f;
 
     [Header("Weapon Actions")]
     public WeaponItemAction OH_NomalAction;
+    public WeaponItemAction OH_StrongAction;
+    public WeaponItemAction OH_ChargeAction;
 
 
     [Header("Stamina Cost")]

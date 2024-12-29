@@ -151,7 +151,25 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
                     ""id"": ""8d8f48bf-f12a-41fb-8e03-f860ec1d3909"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Tap"",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""StrongAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""39b2eafa-0ab3-4035-9482-2a88ce354699"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ChargeAttack"",
+                    ""type"": ""Button"",
+                    ""id"": ""af406649-8d76-4630-935c-0e570edc86a5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": ""Hold(pressPoint=0.1)"",
                     ""initialStateCheck"": false
                 },
                 {
@@ -180,6 +198,15 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Seek Left And Right Lock On Target"",
+                    ""type"": ""Value"",
+                    ""id"": ""a0c640c4-c2fd-4a79-b998-505d91db1159"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -231,7 +258,7 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""6ee781c5-2253-4b87-84f8-f7e6f0b3607d"",
                     ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
+                    ""interactions"": ""Tap"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""NomalAttack"",
@@ -248,6 +275,61 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
                     ""action"": ""LockOn"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fd64ba29-c99d-4935-ad0a-691482c32c34"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Seek Left And Right Lock On Target"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c30b736f-ba67-4486-acfb-c8986b124c51"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": ""Hold(pressPoint=0.3)"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""ChargeAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""One Modifier"",
+                    ""id"": ""557be672-6009-4e55-ba40-372b4d44fc1e"",
+                    ""path"": ""OneModifier"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StrongAttack"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""modifier"",
+                    ""id"": ""8eaa9b1b-0faa-4b58-8d6e-260d3e0411b3"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StrongAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""binding"",
+                    ""id"": ""99019f6b-964c-4bc1-8504-a7b9b9126df0"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""StrongAttack"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -265,9 +347,12 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
         m_PlayerActions_Dodge = m_PlayerActions.FindAction("Dodge", throwIfNotFound: true);
         m_PlayerActions_Jump = m_PlayerActions.FindAction("Jump", throwIfNotFound: true);
         m_PlayerActions_NomalAttack = m_PlayerActions.FindAction("NomalAttack", throwIfNotFound: true);
+        m_PlayerActions_StrongAttack = m_PlayerActions.FindAction("StrongAttack", throwIfNotFound: true);
+        m_PlayerActions_ChargeAttack = m_PlayerActions.FindAction("ChargeAttack", throwIfNotFound: true);
         m_PlayerActions_Walk = m_PlayerActions.FindAction("Walk", throwIfNotFound: true);
         m_PlayerActions_Sprint = m_PlayerActions.FindAction("Sprint", throwIfNotFound: true);
         m_PlayerActions_LockOn = m_PlayerActions.FindAction("LockOn", throwIfNotFound: true);
+        m_PlayerActions_SeekLeftAndRightLockOnTarget = m_PlayerActions.FindAction("Seek Left And Right Lock On Target", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -424,9 +509,12 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_Dodge;
     private readonly InputAction m_PlayerActions_Jump;
     private readonly InputAction m_PlayerActions_NomalAttack;
+    private readonly InputAction m_PlayerActions_StrongAttack;
+    private readonly InputAction m_PlayerActions_ChargeAttack;
     private readonly InputAction m_PlayerActions_Walk;
     private readonly InputAction m_PlayerActions_Sprint;
     private readonly InputAction m_PlayerActions_LockOn;
+    private readonly InputAction m_PlayerActions_SeekLeftAndRightLockOnTarget;
     public struct PlayerActionsActions
     {
         private @PlayerControl m_Wrapper;
@@ -434,9 +522,12 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
         public InputAction @Dodge => m_Wrapper.m_PlayerActions_Dodge;
         public InputAction @Jump => m_Wrapper.m_PlayerActions_Jump;
         public InputAction @NomalAttack => m_Wrapper.m_PlayerActions_NomalAttack;
+        public InputAction @StrongAttack => m_Wrapper.m_PlayerActions_StrongAttack;
+        public InputAction @ChargeAttack => m_Wrapper.m_PlayerActions_ChargeAttack;
         public InputAction @Walk => m_Wrapper.m_PlayerActions_Walk;
         public InputAction @Sprint => m_Wrapper.m_PlayerActions_Sprint;
         public InputAction @LockOn => m_Wrapper.m_PlayerActions_LockOn;
+        public InputAction @SeekLeftAndRightLockOnTarget => m_Wrapper.m_PlayerActions_SeekLeftAndRightLockOnTarget;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -455,6 +546,12 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
             @NomalAttack.started += instance.OnNomalAttack;
             @NomalAttack.performed += instance.OnNomalAttack;
             @NomalAttack.canceled += instance.OnNomalAttack;
+            @StrongAttack.started += instance.OnStrongAttack;
+            @StrongAttack.performed += instance.OnStrongAttack;
+            @StrongAttack.canceled += instance.OnStrongAttack;
+            @ChargeAttack.started += instance.OnChargeAttack;
+            @ChargeAttack.performed += instance.OnChargeAttack;
+            @ChargeAttack.canceled += instance.OnChargeAttack;
             @Walk.started += instance.OnWalk;
             @Walk.performed += instance.OnWalk;
             @Walk.canceled += instance.OnWalk;
@@ -464,6 +561,9 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
             @LockOn.started += instance.OnLockOn;
             @LockOn.performed += instance.OnLockOn;
             @LockOn.canceled += instance.OnLockOn;
+            @SeekLeftAndRightLockOnTarget.started += instance.OnSeekLeftAndRightLockOnTarget;
+            @SeekLeftAndRightLockOnTarget.performed += instance.OnSeekLeftAndRightLockOnTarget;
+            @SeekLeftAndRightLockOnTarget.canceled += instance.OnSeekLeftAndRightLockOnTarget;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -477,6 +577,12 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
             @NomalAttack.started -= instance.OnNomalAttack;
             @NomalAttack.performed -= instance.OnNomalAttack;
             @NomalAttack.canceled -= instance.OnNomalAttack;
+            @StrongAttack.started -= instance.OnStrongAttack;
+            @StrongAttack.performed -= instance.OnStrongAttack;
+            @StrongAttack.canceled -= instance.OnStrongAttack;
+            @ChargeAttack.started -= instance.OnChargeAttack;
+            @ChargeAttack.performed -= instance.OnChargeAttack;
+            @ChargeAttack.canceled -= instance.OnChargeAttack;
             @Walk.started -= instance.OnWalk;
             @Walk.performed -= instance.OnWalk;
             @Walk.canceled -= instance.OnWalk;
@@ -486,6 +592,9 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
             @LockOn.started -= instance.OnLockOn;
             @LockOn.performed -= instance.OnLockOn;
             @LockOn.canceled -= instance.OnLockOn;
+            @SeekLeftAndRightLockOnTarget.started -= instance.OnSeekLeftAndRightLockOnTarget;
+            @SeekLeftAndRightLockOnTarget.performed -= instance.OnSeekLeftAndRightLockOnTarget;
+            @SeekLeftAndRightLockOnTarget.canceled -= instance.OnSeekLeftAndRightLockOnTarget;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -516,8 +625,11 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
         void OnDodge(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnNomalAttack(InputAction.CallbackContext context);
+        void OnStrongAttack(InputAction.CallbackContext context);
+        void OnChargeAttack(InputAction.CallbackContext context);
         void OnWalk(InputAction.CallbackContext context);
         void OnSprint(InputAction.CallbackContext context);
         void OnLockOn(InputAction.CallbackContext context);
+        void OnSeekLeftAndRightLockOnTarget(InputAction.CallbackContext context);
     }
 }

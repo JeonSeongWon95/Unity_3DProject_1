@@ -84,6 +84,48 @@ public class CharacterAnimatorManager : MonoBehaviour
             float horizontalAmount = horizontalvalue;
             float verticalAmount = verticalvalue;
 
+            if (horizontalvalue > 0 && horizontalvalue <= 0.5f)
+            {
+                horizontalAmount = 0.5f;
+            }
+            else if (horizontalvalue > 0.5f && horizontalvalue <= 1.0f)
+            {
+                horizontalAmount = 1.0f;
+            }
+            else if (horizontalvalue < 0 && horizontalvalue >= -0.5f)
+            {
+                horizontalAmount = -0.5f;
+            }
+            else if (horizontalvalue < -0.5f && horizontalvalue >= -1.0f)
+            {
+                horizontalAmount = -1.0f;
+            }
+            else
+            {
+                horizontalAmount = 0.0f;
+            }
+
+            if (verticalvalue > 0 && verticalvalue <= 0.5f)
+            {
+                verticalAmount = 0.5f;
+            }
+            else if (verticalvalue > 0.5f && verticalvalue <= 1.0f)
+            {
+                verticalAmount = 1.0f;
+            }
+            else if (verticalvalue < 0 && verticalvalue >= -0.5f)
+            {
+                verticalAmount = -0.5f;
+            }
+            else if (verticalvalue < -0.5f && verticalvalue >= -1.0f)
+            {
+                verticalAmount = -1.0f;
+            }
+            else 
+            {
+                verticalAmount = 0.0f;
+            }
+
             if (IsSprint) 
             {
                 verticalAmount = 2;
@@ -97,6 +139,7 @@ public class CharacterAnimatorManager : MonoBehaviour
     public virtual void PlayTargetActionAnimation(string AnimationName, bool IsPerformingAction, bool IsRootMotion = true, 
         bool CanRotate = false, bool CanMove = false) 
     {
+
         mCharaterManager.ApplyRootMotion = IsRootMotion;
         mCharaterManager.mAnimator.CrossFade(AnimationName, 0.2f);
         mCharaterManager.IsPerformingAction = IsPerformingAction;

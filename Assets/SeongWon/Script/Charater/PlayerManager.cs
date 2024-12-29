@@ -74,7 +74,6 @@ public class PlayerManager : CharacterManager
             mPlayerNetworkManager.mNetworkCurrentHealth.OnValueChanged += (OldValue, NewValue) =>
             {
                 PlayerUIManager.Instance.mPlayerUIHUDManager.SetHealthValue(OldValue, NewValue);
-                //mPlayerStatsManager.ResetRegenerateHealth(OldValue, NewValue);
             };
         }
 
@@ -97,6 +96,43 @@ public class PlayerManager : CharacterManager
             LoadGameDataToCurrentCharacterData(ref WorldSaveGameManager.Instance.mCurrentCharacterData);
         }
 
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        NetworkManager.Singleton.OnClientConnectedCallback -= OnClientConnectedCallBack;
+
+        if (IsOwner)
+        {
+
+            mPlayerNetworkManager.mNetworkVitality.OnValueChanged -= mPlayerNetworkManager.SetHealthValue;
+            mPlayerNetworkManager.mNetworkEndurence.OnValueChanged -= mPlayerNetworkManager.SetStaminaValue;
+
+            mPlayerNetworkManager.mNetworkCurrentStamina.OnValueChanged -= (OldValue, NewValue) =>
+            {
+                PlayerUIManager.Instance.mPlayerUIHUDManager.SetStaminaValue(OldValue, NewValue);
+                mPlayerStatsManager.ResetRegenerateStamina(OldValue, NewValue);
+            };
+            mPlayerNetworkManager.mNetworkCurrentHealth.OnValueChanged -= (OldValue, NewValue) =>
+            {
+                PlayerUIManager.Instance.mPlayerUIHUDManager.SetHealthValue(OldValue, NewValue);
+            };
+        }
+
+        mPlayerNetworkManager.mNetworkCurrentHealth.OnValueChanged -= mPlayerNetworkManager.CheckHP;
+
+        mPlayerNetworkManager.mCurrentRightHandWeaponID.OnValueChanged -=
+            mPlayerNetworkManager.OnCurrentRightHandWeaponIDChange;
+
+        mPlayerNetworkManager.mCurrentLeftHandWeaponID.OnValueChanged -=
+            mPlayerNetworkManager.OnCurrentLeftHandWeaponIDChange;
+
+        mPlayerNetworkManager.mCurrentWeaponBeingUsed.OnValueChanged -=
+            mPlayerNetworkManager.OnCurrentWeaponBeingUsedIDChange;
+
+        mPlayerNetworkManager.mNetworkIsLockOn.OnValueChanged += mPlayerNetworkManager.OnIsLockedOnChanged;
+        mPlayerNetworkManager.mCurrentTargetNetworkObjectID.OnValueChanged -= mPlayerNetworkManager.LockOnTargetIDChange;
     }
 
     public override IEnumerator ProcessDeathEvent(bool ManuallySelectDeathAnimation = false)

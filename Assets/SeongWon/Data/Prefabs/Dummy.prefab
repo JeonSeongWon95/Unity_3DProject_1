@@ -1549,7 +1549,6 @@ GameObject:
   - component: {fileID: 4028232408243938436}
   - component: {fileID: 2345388487421780561}
   - component: {fileID: 3114566328785470708}
-  - component: {fileID: 5411845441127632281}
   - component: {fileID: 841333705653919785}
   - component: {fileID: 3022740802256975900}
   - component: {fileID: 8462764146328477768}
@@ -1559,6 +1558,7 @@ GameObject:
   - component: {fileID: 6471900615952558296}
   - component: {fileID: 5152991383824872498}
   - component: {fileID: 9003352405810827041}
+  - component: {fileID: 5462587960769006044}
   m_Layer: 6
   m_Name: Dummy
   m_TagString: Untagged
@@ -1574,7 +1574,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3313574091281451750}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.9739688, y: 0, z: 0.88356686}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -1617,7 +1617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1392694106
+  GlobalObjectIdHash: 660290610
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -1775,18 +1775,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &5411845441127632281
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3313574091281451750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ca2d0cb32096884ca54c94e888d13a2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &841333705653919785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1900,6 +1888,8 @@ MonoBehaviour:
     m_InternalValue: 0
   mNetworkAnimatorMoveAmountParameter:
     m_InternalValue: 0
+  mCurrentTargetNetworkObjectID:
+    m_InternalValue: 0
   mNetworkIsSprint:
     m_InternalValue: 0
   mNetworkIsJumping:
@@ -1932,7 +1922,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mGroundLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1
   mGravityForce: -5.55
   mGroundCheckSphereRadius: 1
   mYVelocity: {x: 0, y: 0, z: 0}
@@ -1964,6 +1954,18 @@ MonoBehaviour:
   IsGround: 1
   CanRotate: 1
   CanMove: 1
+--- !u!114 &5462587960769006044
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3313574091281451750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c2859aba5c3b0f43b4762f46bfbe201, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3319070012446186227
 GameObject:
   m_ObjectHideFlags: 0

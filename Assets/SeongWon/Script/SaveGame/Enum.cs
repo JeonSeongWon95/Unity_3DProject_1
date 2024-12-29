@@ -30,5 +30,7 @@ public enum WeaponModelSlot
 
 public enum AttackType 
 {
-    LightAttack01
+    LightAttack01,
+    StrongAttack01,
+    ChargeAttack01
 }

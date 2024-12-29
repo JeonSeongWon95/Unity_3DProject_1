@@ -13,6 +13,7 @@ public class CharacterManager : NetworkBehaviour
     [HideInInspector] public CharacterAnimatorManager mCharacterAnimatorManager;
     [HideInInspector] public CharacterCombatManager mCharacterCombatManager;
     [HideInInspector] public CharacterSoundFXManager mCharacterSoundFXManager;
+    [HideInInspector] public CharacterLocomotionManager mCharacterLocomotionManager;
 
     [Header("Status")]
     public NetworkVariable<bool> mIsDead = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone,
@@ -35,11 +36,17 @@ public class CharacterManager : NetworkBehaviour
         mCharacterAnimatorManager = GetComponent<CharacterAnimatorManager>();
         mCharacterCombatManager = GetComponent<CharacterCombatManager>();
         mCharacterSoundFXManager = GetComponent<CharacterSoundFXManager>();
+        mCharacterLocomotionManager = GetComponent<CharacterLocomotionManager>();
     }
 
     protected virtual void Start() 
     {
         IgnoreMyOwnColliders();
+
+        if (!GetComponent<NetworkObject>().IsSpawned)
+        {
+            GetComponent<NetworkObject>().Spawn();
+        }
     }
 
     protected virtual void Update() 

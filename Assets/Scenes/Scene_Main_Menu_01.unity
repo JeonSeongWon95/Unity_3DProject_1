@@ -571,7 +571,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -7857492147568102954, guid: bf1dfae458f05ca4e8e496a0e2aec62c, type: 3}
       propertyPath: mCharacterSlot
-      value: 0
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2355813160685503500, guid: bf1dfae458f05ca4e8e496a0e2aec62c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -872,7 +872,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -7857492147568102954, guid: bf1dfae458f05ca4e8e496a0e2aec62c, type: 3}
       propertyPath: mCharacterSlot
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2355813160685503500, guid: bf1dfae458f05ca4e8e496a0e2aec62c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1288,7 +1288,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -7857492147568102954, guid: bf1dfae458f05ca4e8e496a0e2aec62c, type: 3}
       propertyPath: mCharacterSlot
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2355813160685503500, guid: bf1dfae458f05ca4e8e496a0e2aec62c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2145,7 +2145,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -7857492147568102954, guid: bf1dfae458f05ca4e8e496a0e2aec62c, type: 3}
       propertyPath: mCharacterSlot
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2355813160685503500, guid: bf1dfae458f05ca4e8e496a0e2aec62c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2557,7 +2557,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -7857492147568102954, guid: bf1dfae458f05ca4e8e496a0e2aec62c, type: 3}
       propertyPath: mCharacterSlot
-      value: 0
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2355813160685503500, guid: bf1dfae458f05ca4e8e496a0e2aec62c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -2805,7 +2805,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -7857492147568102954, guid: bf1dfae458f05ca4e8e496a0e2aec62c, type: 3}
       propertyPath: mCharacterSlot
-      value: 0
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 2355813160685503500, guid: bf1dfae458f05ca4e8e496a0e2aec62c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -4182,7 +4182,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -7857492147568102954, guid: bf1dfae458f05ca4e8e496a0e2aec62c, type: 3}
       propertyPath: mCharacterSlot
-      value: 0
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2355813160685503500, guid: bf1dfae458f05ca4e8e496a0e2aec62c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -5070,7 +5070,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -7857492147568102954, guid: bf1dfae458f05ca4e8e496a0e2aec62c, type: 3}
       propertyPath: mCharacterSlot
-      value: 0
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2355813160685503500, guid: bf1dfae458f05ca4e8e496a0e2aec62c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -5257,7 +5257,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -7857492147568102954, guid: bf1dfae458f05ca4e8e496a0e2aec62c, type: 3}
       propertyPath: mCharacterSlot
-      value: 0
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2355813160685503500, guid: bf1dfae458f05ca4e8e496a0e2aec62c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -6210,6 +6210,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8210356313106059120, guid: 4bff6911bcf30d14eb0c5888f43ecde1, type: 3}
+      propertyPath: mWeaponItemActions.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8210356313106059120, guid: 4bff6911bcf30d14eb0c5888f43ecde1, type: 3}
+      propertyPath: 'mWeaponItemActions.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: a6fe9e5599a69a24d9112eca6e100e95, type: 2}
+    - target: {fileID: 8210356313106059120, guid: 4bff6911bcf30d14eb0c5888f43ecde1, type: 3}
+      propertyPath: 'mWeaponItemActions.Array.data[1]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 63851bec1c71fc44b83f838292de7b95, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerLocomotionManager : CharacterLocomotionManager
 {
-    PlayerManager mPlayerManamger;
+    PlayerManager mPlayerManager;
 
     [HideInInspector] public float mVerticalMovement;
     [HideInInspector] public float mHorizontalMovement;
@@ -32,27 +32,35 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     protected override void Awake()
     {
         base.Awake();
-        mPlayerManamger = GetComponent<PlayerManager>();
+        mPlayerManager = GetComponent<PlayerManager>();
     }
 
     protected override void Update()
     {
         base.Update();
 
-        if (mPlayerManamger.IsOwner)
+        if (mPlayerManager.IsOwner)
         {
-            mPlayerManamger.mCharacterNetworkManager.mNetworkAnimatorHorizontalParameter.Value = mHorizontalMovement;
-            mPlayerManamger.mCharacterNetworkManager.mNetworkAnimatorVerticalParameter.Value = mVerticalMovement;
-            mPlayerManamger.mCharacterNetworkManager.mNetworkAnimatorMoveAmountParameter.Value = mMovementAmount;
+            mPlayerManager.mCharacterNetworkManager.mNetworkAnimatorHorizontalParameter.Value = mHorizontalMovement;
+            mPlayerManager.mCharacterNetworkManager.mNetworkAnimatorVerticalParameter.Value = mVerticalMovement;
+            mPlayerManager.mCharacterNetworkManager.mNetworkAnimatorMoveAmountParameter.Value = mMovementAmount;
         }
         else
         {
-            mHorizontalMovement = mPlayerManamger.mCharacterNetworkManager.mNetworkAnimatorHorizontalParameter.Value;
-            mVerticalMovement = mPlayerManamger.mCharacterNetworkManager.mNetworkAnimatorVerticalParameter.Value;
-            mMovementAmount = mPlayerManamger.mCharacterNetworkManager.mNetworkAnimatorMoveAmountParameter.Value;
+            mHorizontalMovement = mPlayerManager.mCharacterNetworkManager.mNetworkAnimatorHorizontalParameter.Value;
+            mVerticalMovement = mPlayerManager.mCharacterNetworkManager.mNetworkAnimatorVerticalParameter.Value;
+            mMovementAmount = mPlayerManager.mCharacterNetworkManager.mNetworkAnimatorMoveAmountParameter.Value;
 
-            mPlayerManamger.mPlayerAnimatorManager.UpdateAnimatorValues(0, mMovementAmount,
-                mPlayerManamger.mPlayerNetworkManager.mNetworkIsSprint.Value);
+            if (!mPlayerManager.mPlayerNetworkManager.mNetworkIsLockOn.Value || mPlayerManager.mPlayerNetworkManager.mNetworkIsSprint.Value)
+            {
+                mPlayerManager.mPlayerAnimatorManager.UpdateAnimatorValues(0, mMovementAmount, mPlayerManager.mPlayerNetworkManager.mNetworkIsSprint.Value);
+            }
+            else
+            {
+
+                mPlayerManager.mPlayerAnimatorManager.UpdateAnimatorValues(mHorizontalMovement, mVerticalMovement,
+                    mPlayerManager.mPlayerNetworkManager.mNetworkIsSprint.Value);
+            }
         }
     }
     public void HandleAllMovement()
@@ -73,7 +81,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     private void HandleGroundedMovement()
     {
 
-        if (!mPlayerManamger.CanMove)
+        if (!mPlayerManager.CanMove)
             return;
 
         GetMovementInputValues();
@@ -83,56 +91,96 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         mMoveDirection.Normalize();
         mMoveDirection.y = 0;
 
-        if (mPlayerManamger.mPlayerNetworkManager.mNetworkIsSprint.Value)
+        if (mPlayerManager.mPlayerNetworkManager.mNetworkIsSprint.Value)
         {
-            mPlayerManamger.mCharaterController.Move(mMoveDirection * mSpeedSprint * Time.deltaTime);
+            mPlayerManager.mCharaterController.Move(mMoveDirection * mSpeedSprint * Time.deltaTime);
         }
         else
         {
-            mPlayerManamger.mCharaterController.Move(mMoveDirection * mSpeed * Time.deltaTime);
+            mPlayerManager.mCharaterController.Move(mMoveDirection * mSpeed * Time.deltaTime);
         }
     }
 
     private void HandleJumpingMovement() 
     {
-        if (mPlayerManamger.mPlayerNetworkManager.mNetworkIsJumping.Value) 
+        if (mPlayerManager.mPlayerNetworkManager.mNetworkIsJumping.Value) 
         {
-            mPlayerManamger.mCharaterController.Move(mJumpDirection * mJumpForwardVelocity * Time.deltaTime);
+            mPlayerManager.mCharaterController.Move(mJumpDirection * mJumpForwardVelocity * Time.deltaTime);
         }
     }
 
     private void HandleFreeFallMovement() 
     {
-        if (!mPlayerManamger.IsGround) 
+        if (!mPlayerManager.IsGround) 
         {
             Vector3 mFreeFallDirection = PlayerCamera.Instance.transform.forward * PlayerInputManager.Instance.mVerticalInput;
             mFreeFallDirection += PlayerCamera.Instance.transform.right * PlayerInputManager.Instance.mHorizontalInput;
             mFreeFallDirection.y = 0;
 
-            mPlayerManamger.mCharaterController.Move(mFreeFallDirection * mJumpFallVelocity * Time.deltaTime);
+            mPlayerManager.mCharaterController.Move(mFreeFallDirection * mJumpFallVelocity * Time.deltaTime);
         }
     }
 
     private void HandleRotateMovement()
     {
-        if (!mPlayerManamger.CanRotate)
+        if (mPlayerManager.mIsDead.Value)
             return;
 
-        mTargetLocation = Vector3.zero;
-        mTargetLocation = PlayerCamera.Instance.mCamera.transform.forward * mVerticalMovement;
-        mTargetLocation = mTargetLocation + PlayerCamera.Instance.transform.right * mHorizontalMovement;
-        mTargetLocation.Normalize();
-        mTargetLocation.y = 0;
+        if (!mPlayerManager.CanRotate)
+            return;
 
-        if (mTargetLocation == Vector3.zero)
+        if (mPlayerManager.mPlayerNetworkManager.mNetworkIsLockOn.Value)
         {
-            mTargetLocation = transform.forward;
+            if (mPlayerManager.mPlayerNetworkManager.mNetworkIsSprint.Value || mPlayerManager.mPlayerLocomotionManager.mIsRolling)
+            {
+                Vector3 TargetDirection = Vector3.zero;
+                TargetDirection = PlayerCamera.Instance.mCamera.transform.forward * mVerticalMovement;
+                TargetDirection += PlayerCamera.Instance.mCamera.transform.right * mHorizontalMovement;
+                TargetDirection.Normalize();
+                TargetDirection.y = 0;
+
+                if (TargetDirection == Vector3.zero)
+                {
+                    TargetDirection = transform.forward;
+                }
+
+                Quaternion TargetRotation = Quaternion.LookRotation(TargetDirection);
+                Quaternion FinalRotation = Quaternion.Slerp(transform.rotation, TargetRotation, Time.deltaTime);
+                transform.rotation = FinalRotation;
+            }
+            else 
+            {
+                if (mPlayerManager.mPlayerCombatManager.mCurrentTarget == null)
+                    return;
+
+                Vector3 TargetDirection;
+                TargetDirection = mPlayerManager.mPlayerCombatManager.mCurrentTarget.transform.position - transform.position;
+                TargetDirection.Normalize();
+                TargetDirection.y = 0;
+
+                Quaternion TargetRotation = Quaternion.LookRotation(TargetDirection);
+                Quaternion FinalRotation = Quaternion.Slerp(transform.rotation, TargetRotation, Time.deltaTime);
+                transform.rotation = FinalRotation;
+            }
         }
+        else 
+        { 
+            mTargetLocation = Vector3.zero;
+            mTargetLocation = PlayerCamera.Instance.mCamera.transform.forward * mVerticalMovement;
+            mTargetLocation = mTargetLocation + PlayerCamera.Instance.transform.right * mHorizontalMovement;
+            mTargetLocation.Normalize();
+            mTargetLocation.y = 0;
 
-        Quaternion NewRotation = Quaternion.LookRotation(mTargetLocation);
-        Quaternion TargetRotation = Quaternion.Slerp(transform.rotation, NewRotation, mRotateSpeed * Time.deltaTime);
+            if (mTargetLocation == Vector3.zero)
+            {
+                mTargetLocation = transform.forward;
+            }
 
-        transform.rotation = TargetRotation;
+            Quaternion NewRotation = Quaternion.LookRotation(mTargetLocation);
+            Quaternion TargetRotation = Quaternion.Slerp(transform.rotation, NewRotation, mRotateSpeed * Time.deltaTime);
+
+            transform.rotation = TargetRotation;
+        }
 
     }
 
@@ -143,10 +191,10 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     public void AttemptToPerfotmDodge()
     {
-        if (mPlayerManamger.IsPerformingAction)
+        if (mPlayerManager.IsPerformingAction)
             return;
 
-        if (mPlayerManamger.mPlayerNetworkManager.mNetworkCurrentStamina.Value <= 0)
+        if (mPlayerManager.mPlayerNetworkManager.mNetworkCurrentStamina.Value <= 0)
             return;
 
         if (mMovementAmount > 0)
@@ -157,35 +205,37 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             mRollDirection.Normalize();
 
             Quaternion RollRotation = Quaternion.LookRotation(mRollDirection);
-            mPlayerManamger.transform.rotation = RollRotation;
+            mPlayerManager.transform.rotation = RollRotation;
 
-            mPlayerManamger.mPlayerAnimatorManager.PlayTargetActionAnimation("RollForward", true, true);
+            mPlayerManager.mPlayerAnimatorManager.PlayTargetActionAnimation("RollForward", true, true);
+
+            mPlayerManager.mPlayerLocomotionManager.mIsRolling = true;
         }
 
-        mPlayerManamger.mPlayerNetworkManager.mNetworkCurrentStamina.Value -= mDodgeStaminaCost;
+        mPlayerManager.mPlayerNetworkManager.mNetworkCurrentStamina.Value -= mDodgeStaminaCost;
     }
 
     public void AttemptToPerfotmJump() 
     {
-        if (mPlayerManamger.IsPerformingAction)
+        if (mPlayerManager.IsPerformingAction)
             return;
 
-        if (mPlayerManamger.mPlayerNetworkManager.mNetworkCurrentStamina.Value <= 0)
+        if (mPlayerManager.mPlayerNetworkManager.mNetworkCurrentStamina.Value <= 0)
             return;
 
-        if (mPlayerManamger.mPlayerNetworkManager.mNetworkIsJumping.Value || !mPlayerManamger.IsGround)
+        if (mPlayerManager.mPlayerNetworkManager.mNetworkIsJumping.Value || !mPlayerManager.IsGround)
             return;
 
-        mPlayerManamger.mPlayerAnimatorManager.PlayTargetActionAnimation("Jump_Up", false);
-        mPlayerManamger.mPlayerNetworkManager.mNetworkIsJumping.Value = true;
-        mPlayerManamger.mPlayerNetworkManager.mNetworkCurrentStamina.Value -= mJumpStaminaCost;
+        mPlayerManager.mPlayerAnimatorManager.PlayTargetActionAnimation("Jump_Up", false);
+        mPlayerManager.mPlayerNetworkManager.mNetworkIsJumping.Value = true;
+        mPlayerManager.mPlayerNetworkManager.mNetworkCurrentStamina.Value -= mJumpStaminaCost;
 
         mJumpDirection = PlayerCamera.Instance.mCamera.transform.forward * PlayerInputManager.Instance.mVerticalInput;
         mJumpDirection += PlayerCamera.Instance.mCamera.transform.right * PlayerInputManager.Instance.mHorizontalInput;
 
         if (mJumpDirection != Vector3.zero)
         {
-            if (mPlayerManamger.mPlayerNetworkManager.mNetworkIsSprint.Value)
+            if (mPlayerManager.mPlayerNetworkManager.mNetworkIsSprint.Value)
             {
                 mJumpDirection *= 1;
             }
@@ -202,29 +252,29 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     public void HandleSprinting() 
     {
-        if (mPlayerManamger.IsPerformingAction) 
+        if (mPlayerManager.IsPerformingAction) 
         {
-            mPlayerManamger.mPlayerNetworkManager.mNetworkIsSprint.Value = false;
+            mPlayerManager.mPlayerNetworkManager.mNetworkIsSprint.Value = false;
         }
 
-        if (mPlayerManamger.mPlayerNetworkManager.mNetworkCurrentStamina.Value <= 0)
+        if (mPlayerManager.mPlayerNetworkManager.mNetworkCurrentStamina.Value <= 0)
         {
-            mPlayerManamger.mPlayerNetworkManager.mNetworkIsSprint.Value = false;
+            mPlayerManager.mPlayerNetworkManager.mNetworkIsSprint.Value = false;
             return;
         }
 
         if (mMovementAmount >= 0.5f)
         {
-            mPlayerManamger.mPlayerNetworkManager.mNetworkIsSprint.Value = true;
+            mPlayerManager.mPlayerNetworkManager.mNetworkIsSprint.Value = true;
         }
         else 
         {
-            mPlayerManamger.mPlayerNetworkManager.mNetworkIsSprint.Value = false;
+            mPlayerManager.mPlayerNetworkManager.mNetworkIsSprint.Value = false;
         }
 
-        if (mPlayerManamger.mPlayerNetworkManager.mNetworkIsSprint.Value) 
+        if (mPlayerManager.mPlayerNetworkManager.mNetworkIsSprint.Value) 
         {
-            mPlayerManamger.mPlayerNetworkManager.mNetworkCurrentStamina.Value -= mSprintStaminaCost * Time.deltaTime;
+            mPlayerManager.mPlayerNetworkManager.mNetworkCurrentStamina.Value -= mSprintStaminaCost * Time.deltaTime;
         }
     }
 
