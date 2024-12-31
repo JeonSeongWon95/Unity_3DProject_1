@@ -185,6 +185,42 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Swtich Right Weapon",
+                    "type": "Button",
+                    "id": "df787560-3446-45eb-8b0e-d97fcbc9fd00",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Swtich Left Weapon",
+                    "type": "Button",
+                    "id": "f83e51f5-f9be-410a-ae91-eb5af53ee2cf",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Swtich Up Weapon",
+                    "type": "Button",
+                    "id": "7ff699f5-c7d7-4d6c-b768-c0d173bf5809",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Swtich Down Weapon",
+                    "type": "Button",
+                    "id": "3e2926dc-24b2-4168-ad3a-2ac14bd9b32d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -308,6 +344,50 @@
                     "action": "StrongAttack",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "d880e44f-9bc1-4eba-a029-60d023ebf87a",
+                    "path": "<Keyboard>/rightArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Swtich Right Weapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2a7b3ce3-b202-45fb-814e-fa07842bdc0f",
+                    "path": "<Keyboard>/leftArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Swtich Left Weapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ffc88369-3941-4c81-80fa-edbd8ba99cdf",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Swtich Up Weapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "70178e08-1465-4912-8316-4890529c7bd2",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Swtich Down Weapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

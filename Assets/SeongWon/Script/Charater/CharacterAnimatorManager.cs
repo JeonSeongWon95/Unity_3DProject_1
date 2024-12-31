@@ -153,6 +153,7 @@ public class CharacterAnimatorManager : MonoBehaviour
     public virtual void PlayTargetAttackActionAnimation(AttackType NewAttackType, string AnimationName, bool IsPerformingAction, bool IsRootMotion = true,
     bool CanRotate = false, bool CanMove = false)
     {
+        mCharaterManager.mCharacterCombatManager.mLastAttackAnimationPerformed = AnimationName;
         mCharaterManager.mCharacterCombatManager.mCurrentAttackType = NewAttackType;
         mCharaterManager.ApplyRootMotion = IsRootMotion;
         mCharaterManager.mAnimator.CrossFade(AnimationName, 0.2f);
@@ -162,5 +163,15 @@ public class CharacterAnimatorManager : MonoBehaviour
 
         mCharaterManager.mCharacterNetworkManager.PlayTargetAttackActionAnimationServerRpc(NetworkManager.Singleton.LocalClientId
             , AnimationName, IsRootMotion);
+    }
+
+    public virtual void EnableCanDoCombo()
+    {
+
+    }
+
+    public virtual void DisableCanDoCombo()
+    {
+       
     }
 }

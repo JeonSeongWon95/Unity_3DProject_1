@@ -6,9 +6,6 @@ using UnityEngine.SceneManagement;
 
 public class PlayerManager : CharacterManager
 {
-    [Header("Debug Menu")]
-    [SerializeField] bool mRespawnCharacter = false;
-    [SerializeField] bool mSwitchRightWeapon = false;
 
     [HideInInspector] public PlayerLocomotionManager mPlayerLocomotionManager;
     [HideInInspector] public PlayerAnimatorManager mPlayerAnimatorManager;
@@ -39,7 +36,6 @@ public class PlayerManager : CharacterManager
 
         mPlayerLocomotionManager.HandleAllMovement();
         mPlayerStatsManager.RegenerateStamina();
-        DebugMenu();
     }
 
     protected override void LateUpdate()
@@ -222,21 +218,6 @@ public class PlayerManager : CharacterManager
         if (mPlayerNetworkManager.mNetworkIsLockOn.Value) 
         {
             mPlayerNetworkManager.LockOnTargetIDChange(0, mPlayerNetworkManager.mCurrentTargetNetworkObjectID.Value);
-        }
-    }
-
-    private void DebugMenu() 
-    {
-        if (mRespawnCharacter) 
-        {
-            mRespawnCharacter = false;
-            ReviveCharacter();
-        }
-
-        if (mSwitchRightWeapon) 
-        {
-            mSwitchRightWeapon = false;
-            mPlayerEquipmentManager.SwitchRightWeapon();
         }
     }
 }

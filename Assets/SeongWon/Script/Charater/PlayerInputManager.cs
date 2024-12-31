@@ -25,6 +25,11 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] bool IsWalk = false;
     [SerializeField] bool IsSprint = false;
     [SerializeField] bool IsJump = false;
+    [SerializeField] bool IsSwitchRightWeapon = false;
+    [SerializeField] bool IsSwitchLeftWeapon = false;
+    [SerializeField] bool IsSwitchUpWeapon = false;
+    [SerializeField] bool IsSwitchDownWeapon = false;
+
 
     [Header("LOCK ON INPUT")]
     [SerializeField] bool LockOnInput = false;
@@ -158,6 +163,26 @@ public class PlayerInputManager : MonoBehaviour
                 Hold_ChargeAttack = true;
             };
 
+            mPlayercontrol.PlayerActions.SwtichRightWeapon.performed += i =>
+            {
+                IsSwitchRightWeapon = true;
+            };
+
+            mPlayercontrol.PlayerActions.SwtichLeftWeapon.performed += i =>
+            {
+                IsSwitchLeftWeapon = true;
+            };
+
+            mPlayercontrol.PlayerActions.SwtichUpWeapon.performed += i =>
+            {
+                IsSwitchUpWeapon = true;
+            };
+
+            mPlayercontrol.PlayerActions.SwtichDownWeapon.performed += i =>
+            {
+                IsSwitchDownWeapon = true;
+            };
+
             mPlayercontrol.Enable();
         }
     }
@@ -195,6 +220,8 @@ public class PlayerInputManager : MonoBehaviour
         HandleLockOnSwitchInput();
         HandleStrongAttackInput();
         HandleChargeAttackInput();
+        HandleSwitchRightWeaponInput();
+        HandleSwitchLeftWeaponInput();
     }
 
     private void HandleLockOnSwitchInput() 
@@ -395,6 +422,24 @@ public class PlayerInputManager : MonoBehaviour
                 mPlayerManager.mPlayerInventoryManager.mCurrentRightWeapon.OH_ChargeAction,
                 mPlayerManager.mPlayerInventoryManager.mCurrentRightWeapon);
 
+        }
+    }
+
+    private void HandleSwitchRightWeaponInput()
+    {
+        if (IsSwitchRightWeapon)
+        {
+            IsSwitchRightWeapon = false;
+            mPlayerManager.mPlayerEquipmentManager.SwitchRightWeapon();
+        }
+    }
+
+    private void HandleSwitchLeftWeaponInput()
+    {
+        if (IsSwitchLeftWeapon)
+        {
+            IsSwitchLeftWeapon = false;
+            mPlayerManager.mPlayerEquipmentManager.SwitchLeftWeapon();
         }
     }
 }

@@ -19,6 +19,7 @@ public class ResetActionFlag : StateMachineBehaviour
         mCharacterManager.CanRotate = true;
         mCharacterManager.CanMove = true;
         mCharacterManager.mCharacterLocomotionManager.mIsRolling = false;
+        mCharacterManager.mCharacterAnimatorManager.DisableCanDoCombo();
 
         if (mCharacterManager.IsOwner) 
         {

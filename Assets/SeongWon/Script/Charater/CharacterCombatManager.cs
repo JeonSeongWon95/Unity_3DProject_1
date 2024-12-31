@@ -7,6 +7,9 @@ public class CharacterCombatManager : NetworkBehaviour
 {
     CharacterManager mCharacterManager;
 
+    [Header("Last Attack Animation Performed")]
+    public string mLastAttackAnimationPerformed;
+
     [Header("Attack Target")]
     public CharacterManager mCurrentTarget;
 

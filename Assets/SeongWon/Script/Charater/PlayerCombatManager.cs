@@ -8,6 +8,9 @@ public class PlayerCombatManager : CharacterCombatManager
     PlayerManager mPlayerManager;
     public WeaponItem mCurrentWeaponBeingUsed;
 
+    [Header("Flags")]
+    public bool mCanComboWithMainHandWeapon = false;
+
     protected override void Awake()
     {
         base.Awake();

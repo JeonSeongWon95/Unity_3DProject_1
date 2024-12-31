@@ -207,6 +207,42 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Swtich Right Weapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""df787560-3446-45eb-8b0e-d97fcbc9fd00"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Swtich Left Weapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""f83e51f5-f9be-410a-ae91-eb5af53ee2cf"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Swtich Up Weapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""7ff699f5-c7d7-4d6c-b768-c0d173bf5809"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Swtich Down Weapon"",
+                    ""type"": ""Button"",
+                    ""id"": ""3e2926dc-24b2-4168-ad3a-2ac14bd9b32d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -330,6 +366,50 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
                     ""action"": ""StrongAttack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d880e44f-9bc1-4eba-a029-60d023ebf87a"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Swtich Right Weapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2a7b3ce3-b202-45fb-814e-fa07842bdc0f"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Swtich Left Weapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ffc88369-3941-4c81-80fa-edbd8ba99cdf"",
+                    ""path"": ""<Keyboard>/upArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Swtich Up Weapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""70178e08-1465-4912-8316-4890529c7bd2"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Swtich Down Weapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -353,6 +433,10 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
         m_PlayerActions_Sprint = m_PlayerActions.FindAction("Sprint", throwIfNotFound: true);
         m_PlayerActions_LockOn = m_PlayerActions.FindAction("LockOn", throwIfNotFound: true);
         m_PlayerActions_SeekLeftAndRightLockOnTarget = m_PlayerActions.FindAction("Seek Left And Right Lock On Target", throwIfNotFound: true);
+        m_PlayerActions_SwtichRightWeapon = m_PlayerActions.FindAction("Swtich Right Weapon", throwIfNotFound: true);
+        m_PlayerActions_SwtichLeftWeapon = m_PlayerActions.FindAction("Swtich Left Weapon", throwIfNotFound: true);
+        m_PlayerActions_SwtichUpWeapon = m_PlayerActions.FindAction("Swtich Up Weapon", throwIfNotFound: true);
+        m_PlayerActions_SwtichDownWeapon = m_PlayerActions.FindAction("Swtich Down Weapon", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -515,6 +599,10 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_Sprint;
     private readonly InputAction m_PlayerActions_LockOn;
     private readonly InputAction m_PlayerActions_SeekLeftAndRightLockOnTarget;
+    private readonly InputAction m_PlayerActions_SwtichRightWeapon;
+    private readonly InputAction m_PlayerActions_SwtichLeftWeapon;
+    private readonly InputAction m_PlayerActions_SwtichUpWeapon;
+    private readonly InputAction m_PlayerActions_SwtichDownWeapon;
     public struct PlayerActionsActions
     {
         private @PlayerControl m_Wrapper;
@@ -528,6 +616,10 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_PlayerActions_Sprint;
         public InputAction @LockOn => m_Wrapper.m_PlayerActions_LockOn;
         public InputAction @SeekLeftAndRightLockOnTarget => m_Wrapper.m_PlayerActions_SeekLeftAndRightLockOnTarget;
+        public InputAction @SwtichRightWeapon => m_Wrapper.m_PlayerActions_SwtichRightWeapon;
+        public InputAction @SwtichLeftWeapon => m_Wrapper.m_PlayerActions_SwtichLeftWeapon;
+        public InputAction @SwtichUpWeapon => m_Wrapper.m_PlayerActions_SwtichUpWeapon;
+        public InputAction @SwtichDownWeapon => m_Wrapper.m_PlayerActions_SwtichDownWeapon;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -564,6 +656,18 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
             @SeekLeftAndRightLockOnTarget.started += instance.OnSeekLeftAndRightLockOnTarget;
             @SeekLeftAndRightLockOnTarget.performed += instance.OnSeekLeftAndRightLockOnTarget;
             @SeekLeftAndRightLockOnTarget.canceled += instance.OnSeekLeftAndRightLockOnTarget;
+            @SwtichRightWeapon.started += instance.OnSwtichRightWeapon;
+            @SwtichRightWeapon.performed += instance.OnSwtichRightWeapon;
+            @SwtichRightWeapon.canceled += instance.OnSwtichRightWeapon;
+            @SwtichLeftWeapon.started += instance.OnSwtichLeftWeapon;
+            @SwtichLeftWeapon.performed += instance.OnSwtichLeftWeapon;
+            @SwtichLeftWeapon.canceled += instance.OnSwtichLeftWeapon;
+            @SwtichUpWeapon.started += instance.OnSwtichUpWeapon;
+            @SwtichUpWeapon.performed += instance.OnSwtichUpWeapon;
+            @SwtichUpWeapon.canceled += instance.OnSwtichUpWeapon;
+            @SwtichDownWeapon.started += instance.OnSwtichDownWeapon;
+            @SwtichDownWeapon.performed += instance.OnSwtichDownWeapon;
+            @SwtichDownWeapon.canceled += instance.OnSwtichDownWeapon;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -595,6 +699,18 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
             @SeekLeftAndRightLockOnTarget.started -= instance.OnSeekLeftAndRightLockOnTarget;
             @SeekLeftAndRightLockOnTarget.performed -= instance.OnSeekLeftAndRightLockOnTarget;
             @SeekLeftAndRightLockOnTarget.canceled -= instance.OnSeekLeftAndRightLockOnTarget;
+            @SwtichRightWeapon.started -= instance.OnSwtichRightWeapon;
+            @SwtichRightWeapon.performed -= instance.OnSwtichRightWeapon;
+            @SwtichRightWeapon.canceled -= instance.OnSwtichRightWeapon;
+            @SwtichLeftWeapon.started -= instance.OnSwtichLeftWeapon;
+            @SwtichLeftWeapon.performed -= instance.OnSwtichLeftWeapon;
+            @SwtichLeftWeapon.canceled -= instance.OnSwtichLeftWeapon;
+            @SwtichUpWeapon.started -= instance.OnSwtichUpWeapon;
+            @SwtichUpWeapon.performed -= instance.OnSwtichUpWeapon;
+            @SwtichUpWeapon.canceled -= instance.OnSwtichUpWeapon;
+            @SwtichDownWeapon.started -= instance.OnSwtichDownWeapon;
+            @SwtichDownWeapon.performed -= instance.OnSwtichDownWeapon;
+            @SwtichDownWeapon.canceled -= instance.OnSwtichDownWeapon;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -631,5 +747,9 @@ public partial class @PlayerControl: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnLockOn(InputAction.CallbackContext context);
         void OnSeekLeftAndRightLockOnTarget(InputAction.CallbackContext context);
+        void OnSwtichRightWeapon(InputAction.CallbackContext context);
+        void OnSwtichLeftWeapon(InputAction.CallbackContext context);
+        void OnSwtichUpWeapon(InputAction.CallbackContext context);
+        void OnSwtichDownWeapon(InputAction.CallbackContext context);
     }
 }

@@ -70,7 +70,7 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
         if (!mPlayerManager.IsOwner)
             return;
 
-        mPlayerManager.mPlayerAnimatorManager.PlayTargetActionAnimation("Swap_Right_Weapon_01", false, true, true, true);
+        mPlayerManager.mPlayerAnimatorManager.PlayTargetActionAnimation("Swap_Right_Weapon_01", false, false, true, true);
 
         WeaponItem mSelectedWeapon = null;
 
@@ -156,7 +156,73 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
         if (!mPlayerManager.IsOwner)
             return;
 
-        mPlayerManager.mPlayerAnimatorManager.PlayTargetActionAnimation("Swap_Left_Weapon_01", false);
+        mPlayerManager.mPlayerAnimatorManager.PlayTargetActionAnimation("Swap_Left_Weapon_01", false, false, true, true);
+
+        WeaponItem mSelectedWeapon = null;
+
+        mPlayerManager.mPlayerInventoryManager.mLeftHandWeaponIndex += 1;
+
+        if (mPlayerManager.mPlayerInventoryManager.mLeftHandWeaponIndex < 0 ||
+            mPlayerManager.mPlayerInventoryManager.mLeftHandWeaponIndex > 2)
+        {
+
+            mPlayerManager.mPlayerInventoryManager.mLeftHandWeaponIndex = 0;
+
+            float WeaponCount = 0;
+            WeaponItem FirstWeapon = null;
+            int FirstWeaponPosition = 0;
+
+            for (int i = 0; i < mPlayerManager.mPlayerInventoryManager.mWeaponInLeftHandSlots.Length; i++)
+            {
+                if (mPlayerManager.mPlayerInventoryManager.mWeaponInLeftHandSlots[i].mItemID != WorldItemDataBase.Instance.mUnarmedWeapon.mItemID)
+                {
+                    WeaponCount++;
+
+                    if (FirstWeapon == null)
+                    {
+                        FirstWeapon = mPlayerManager.mPlayerInventoryManager.mWeaponInLeftHandSlots[i];
+                        FirstWeaponPosition = i;
+                    }
+                }
+            }
+
+            if (WeaponCount <= 1)
+            {
+                mPlayerManager.mPlayerInventoryManager.mLeftHandWeaponIndex = -1;
+                mSelectedWeapon = WorldItemDataBase.Instance.mUnarmedWeapon;
+                mPlayerManager.mPlayerNetworkManager.mCurrentLeftHandWeaponID.Value = mSelectedWeapon.mItemID;
+
+            }
+            else
+            {
+                mPlayerManager.mPlayerInventoryManager.mLeftHandWeaponIndex = FirstWeaponPosition;
+                mPlayerManager.mPlayerNetworkManager.mCurrentLeftHandWeaponID.Value = FirstWeapon.mItemID;
+            }
+
+            return;
+        }
+
+        foreach (WeaponItem weaponitem in mPlayerManager.mPlayerInventoryManager.mWeaponInLeftHandSlots)
+        {
+
+            if (mPlayerManager.mPlayerInventoryManager.mWeaponInLeftHandSlots
+                [mPlayerManager.mPlayerInventoryManager.mLeftHandWeaponIndex].mItemID !=
+                WorldItemDataBase.Instance.mUnarmedWeapon.mItemID)
+            {
+                mSelectedWeapon = mPlayerManager.mPlayerInventoryManager.mWeaponInLeftHandSlots
+                    [mPlayerManager.mPlayerInventoryManager.mLeftHandWeaponIndex];
+
+                mPlayerManager.mPlayerNetworkManager.mCurrentLeftHandWeaponID.Value =
+                    mPlayerManager.mPlayerInventoryManager.mWeaponInLeftHandSlots
+                    [mPlayerManager.mPlayerInventoryManager.mLeftHandWeaponIndex].mItemID;
+                return;
+            }
+        }
+
+        if (mSelectedWeapon == null && mPlayerManager.mPlayerInventoryManager.mLeftHandWeaponIndex <= 2)
+        {
+            SwitchLeftWeapon();
+        }
     }
 
     public void OpenDamageCollider() 
