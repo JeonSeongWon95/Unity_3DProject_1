@@ -19,6 +19,9 @@ public class CharacterManager : NetworkBehaviour
     public NetworkVariable<bool> mIsDead = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone,
         NetworkVariableWritePermission.Owner);
 
+    [Header("Character Group")]
+    public CharacterGroup mCharacterGroup;
+
     [Header("FLAGS")]
     public bool IsPerformingAction = false;
     public bool ApplyRootMotion = false;
@@ -66,6 +69,11 @@ public class CharacterManager : NetworkBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, mCharacterNetworkManager.mNetworkRotation.Value,
                 mCharacterNetworkManager.mNetworkRotateSmoothTime);
         }
+    }
+
+    protected virtual void FixedUpdate() 
+    {
+
     }
 
     protected virtual void LateUpdate() 

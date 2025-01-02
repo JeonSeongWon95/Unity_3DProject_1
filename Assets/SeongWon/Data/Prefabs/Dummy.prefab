@@ -1549,7 +1549,6 @@ GameObject:
   - component: {fileID: 4028232408243938436}
   - component: {fileID: 2345388487421780561}
   - component: {fileID: 3114566328785470708}
-  - component: {fileID: 841333705653919785}
   - component: {fileID: 3022740802256975900}
   - component: {fileID: 8462764146328477768}
   - component: {fileID: 8785310192053988843}
@@ -1557,8 +1556,9 @@ GameObject:
   - component: {fileID: 4543397790513010248}
   - component: {fileID: 6471900615952558296}
   - component: {fileID: 5152991383824872498}
-  - component: {fileID: 9003352405810827041}
   - component: {fileID: 5462587960769006044}
+  - component: {fileID: -2384604716219059657}
+  - component: {fileID: -3882655668029603640}
   m_Layer: 6
   m_Name: Dummy
   m_TagString: Untagged
@@ -1617,7 +1617,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 660290610
+  GlobalObjectIdHash: 1392694106
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -1775,21 +1775,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &841333705653919785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3313574091281451750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5f2fb76e83c09a84a9403a042ad6f51e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mCurrentTarget: {fileID: 0}
-  mCurrentAttackType: 0
-  mLockOnTransform: {fileID: 8519199275344854}
 --- !u!114 &3022740802256975900
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1928,32 +1913,7 @@ MonoBehaviour:
   mYVelocity: {x: 0, y: 0, z: 0}
   mGroundYVelocity: -20
   mFallStartYVelocity: -5
---- !u!114 &9003352405810827041
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3313574091281451750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8486bbdfc06ae2c44b636caf4dca32f5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mCharaterController: {fileID: 0}
-  mAnimator: {fileID: 0}
-  mCharacterNetworkManager: {fileID: 0}
-  mCharacterEffectsManager: {fileID: 0}
-  mCharacterAnimatorManager: {fileID: 0}
-  mCharacterCombatManager: {fileID: 0}
-  mCharacterSoundFXManager: {fileID: 0}
-  mIsDead:
-    m_InternalValue: 0
-  IsPerformingAction: 0
-  ApplyRootMotion: 0
-  IsGround: 1
-  CanRotate: 1
-  CanMove: 1
+  mIsRolling: 0
 --- !u!114 &5462587960769006044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1966,6 +1926,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c2859aba5c3b0f43b4762f46bfbe201, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-2384604716219059657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3313574091281451750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0633e8539a25a0a4893551f1dbb26c42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mCharaterController: {fileID: 0}
+  mAnimator: {fileID: 0}
+  mCharacterNetworkManager: {fileID: 0}
+  mCharacterEffectsManager: {fileID: 0}
+  mCharacterAnimatorManager: {fileID: 0}
+  mCharacterCombatManager: {fileID: 0}
+  mCharacterSoundFXManager: {fileID: 0}
+  mCharacterLocomotionManager: {fileID: 0}
+  mIsDead:
+    m_InternalValue: 0
+  IsPerformingAction: 0
+  ApplyRootMotion: 0
+  IsGround: 1
+  CanRotate: 1
+  CanMove: 1
+  mCurrentState: {fileID: 11400000, guid: 1ea73c64d7fd4f64f9a80d7535da5923, type: 2}
+--- !u!114 &-3882655668029603640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3313574091281451750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40e497423dec04f4a9cba74c86f5d25a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mLastAttackAnimationPerformed: 
+  mCurrentTarget: {fileID: 0}
+  mCurrentAttackType: 0
+  mLockOnTransform: {fileID: 8519199275344854}
 --- !u!1 &3319070012446186227
 GameObject:
   m_ObjectHideFlags: 0

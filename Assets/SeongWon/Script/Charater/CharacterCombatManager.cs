@@ -5,7 +5,7 @@ using Unity.Netcode;
 
 public class CharacterCombatManager : NetworkBehaviour
 {
-    CharacterManager mCharacterManager;
+    protected CharacterManager mCharacterManager;
 
     [Header("Last Attack Animation Performed")]
     public string mLastAttackAnimationPerformed;
