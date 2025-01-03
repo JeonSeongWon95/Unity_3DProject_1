@@ -8,4 +8,15 @@ public class AIState : ScriptableObject
     {
         return this;
     }
+
+    protected virtual AIState SwitchState(AICharacterManager mAiCharacter, AIState NewState)
+    {
+        ResetStateFlags(mAiCharacter);
+        return NewState;
+    }
+
+    protected virtual void ResetStateFlags(AICharacterManager mAiCharacter) 
+    {
+
+    }
 }

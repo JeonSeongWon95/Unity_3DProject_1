@@ -1553,12 +1553,12 @@ GameObject:
   - component: {fileID: 8462764146328477768}
   - component: {fileID: 8785310192053988843}
   - component: {fileID: 5606010581875828093}
-  - component: {fileID: 4543397790513010248}
-  - component: {fileID: 6471900615952558296}
-  - component: {fileID: 5152991383824872498}
   - component: {fileID: 5462587960769006044}
   - component: {fileID: -2384604716219059657}
   - component: {fileID: -3882655668029603640}
+  - component: {fileID: -4416088411068728479}
+  - component: {fileID: -8167235134923152418}
+  - component: {fileID: 5955425066142063685}
   m_Layer: 6
   m_Name: Dummy
   m_TagString: Untagged
@@ -1575,12 +1575,13 @@ Transform:
   m_GameObject: {fileID: 3313574091281451750}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.9739688, y: 0, z: 0.88356686}
+  m_LocalPosition: {x: -6.428994, y: -0.057192802, z: -7.82}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2270823721530009778}
   - {fileID: 5093835355535451671}
+  - {fileID: 776336832246855446}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &4920997681419556036
@@ -1617,7 +1618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1392694106
+  GlobalObjectIdHash: 660290610
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -1823,97 +1824,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62bc1310cab1ba6428c679e93985b358, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4543397790513010248
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3313574091281451750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 77641b62de0490944971d3cb908ffde7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  LastDamageAnimationPlayed: 
-  Hit_Forward_Medium_01: Hit_Forward_Medium_01
-  Hit_Forward_Medium_02: Hit_Forward_Medium_02
-  Hit_Backward_Medium_01: Hit_Backward_Medium_01
-  Hit_Backward_Medium_02: Hit_Backward_Medium_02
-  Hit_Right_Medium_01: Hit_Right_Medium_01
-  Hit_Right_Medium_02: Hit_Right_Medium_02
-  Hit_Left_Medium_01: Hit_Left_Medium_01
-  Hit_Left_Medium_02: Hit_Left_Medium_02
-  Forward_Medium_Damage: []
-  Backward_Medium_Damage: []
-  Right_Medium_Damage: []
-  Left_Medium_Damage: []
---- !u!114 &6471900615952558296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3313574091281451750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0655847f223d79f41aa762d0c50022ae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mNetworkPosition:
-    m_InternalValue: {x: 0, y: 0, z: 0}
-  mNetworkRotation:
-    m_InternalValue: {x: 0, y: 0, z: 0, w: 1}
-  mNetworkPositionVelocity: {x: 0, y: 0, z: 0}
-  mNetworkPositionSmoothTime: 0.1
-  mNetworkRotateSmoothTime: 0.1
-  mNetworkAnimatorHorizontalParameter:
-    m_InternalValue: 0
-  mNetworkAnimatorVerticalParameter:
-    m_InternalValue: 0
-  mNetworkAnimatorMoveAmountParameter:
-    m_InternalValue: 0
-  mCurrentTargetNetworkObjectID:
-    m_InternalValue: 0
-  mNetworkIsSprint:
-    m_InternalValue: 0
-  mNetworkIsJumping:
-    m_InternalValue: 0
-  mNetworkIsLockOn:
-    m_InternalValue: 0
-  mNetworkEndurence:
-    m_InternalValue: 1
-  mNetworkVitality:
-    m_InternalValue: 1
-  mNetworkCurrentHealth:
-    m_InternalValue: 0
-  mNetworkMaxHealth:
-    m_InternalValue: 0
-  mNetworkCurrentStamina:
-    m_InternalValue: 0
-  mNetworkMaxStamina:
-    m_InternalValue: 0
---- !u!114 &5152991383824872498
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3313574091281451750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5486388d4d960e94a8c20e20ac3b7a1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mGroundLayer:
-    serializedVersion: 2
-    m_Bits: 1
-  mGravityForce: -5.55
-  mGroundCheckSphereRadius: 1
-  mYVelocity: {x: 0, y: 0, z: 0}
-  mGroundYVelocity: -20
-  mFallStartYVelocity: -5
-  mIsRolling: 0
 --- !u!114 &5462587960769006044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1948,12 +1858,19 @@ MonoBehaviour:
   mCharacterLocomotionManager: {fileID: 0}
   mIsDead:
     m_InternalValue: 0
+  mCharacterGroup: 1
   IsPerformingAction: 0
   ApplyRootMotion: 0
   IsGround: 1
   CanRotate: 1
   CanMove: 1
+  mAICharacterCombatManager: {fileID: 0}
+  mAICharacterNetworkManager: {fileID: 0}
+  mAICharacterLocomotionManager: {fileID: 0}
+  mNavMeshAgent: {fileID: 0}
   mCurrentState: {fileID: 11400000, guid: 1ea73c64d7fd4f64f9a80d7535da5923, type: 2}
+  mIdle: {fileID: 11400000, guid: 1ea73c64d7fd4f64f9a80d7535da5923, type: 2}
+  mPursueTarget: {fileID: 11400000, guid: 2f1a915cc84947e49ae238b7d546bca9, type: 2}
 --- !u!114 &-3882655668029603640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1970,6 +1887,105 @@ MonoBehaviour:
   mCurrentTarget: {fileID: 0}
   mCurrentAttackType: 0
   mLockOnTransform: {fileID: 8519199275344854}
+  mViewableAngle: 0
+  mTargetDirection: {x: 0, y: 0, z: 0}
+  mDetectionRadius: 15
+  mMinmumDetectionAngle: -35
+  mMaximumDetectionAngle: 35
+  mRotateSpeed: 15
+--- !u!114 &-4416088411068728479
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3313574091281451750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bfc9b85183e2bd4e9dd67a2b4dcccea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mNetworkPosition:
+    m_InternalValue: {x: 0, y: 0, z: 0}
+  mNetworkRotation:
+    m_InternalValue: {x: 0, y: 0, z: 0, w: 1}
+  mNetworkPositionVelocity: {x: 0, y: 0, z: 0}
+  mNetworkPositionSmoothTime: 0.1
+  mNetworkRotateSmoothTime: 0.1
+  mNetworkAnimatorHorizontalParameter:
+    m_InternalValue: 0
+  mNetworkAnimatorVerticalParameter:
+    m_InternalValue: 0
+  mNetworkAnimatorMoveAmountParameter:
+    m_InternalValue: 0
+  mNetworkIsMoving:
+    m_InternalValue: 0
+  mCurrentTargetNetworkObjectID:
+    m_InternalValue: 0
+  mNetworkIsSprint:
+    m_InternalValue: 0
+  mNetworkIsJumping:
+    m_InternalValue: 0
+  mNetworkIsLockOn:
+    m_InternalValue: 0
+  mNetworkEndurence:
+    m_InternalValue: 1
+  mNetworkVitality:
+    m_InternalValue: 1
+  mNetworkCurrentHealth:
+    m_InternalValue: 0
+  mNetworkMaxHealth:
+    m_InternalValue: 0
+  mNetworkCurrentStamina:
+    m_InternalValue: 0
+  mNetworkMaxStamina:
+    m_InternalValue: 0
+--- !u!114 &-8167235134923152418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3313574091281451750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3db9dba4708a5646a08dd59ac9ac220, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mGroundLayer:
+    serializedVersion: 2
+    m_Bits: 1
+  mGravityForce: -5.55
+  mGroundCheckSphereRadius: 1
+  mYVelocity: {x: 0, y: 0, z: 0}
+  mGroundYVelocity: -20
+  mFallStartYVelocity: -5
+  mIsRolling: 0
+--- !u!114 &5955425066142063685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3313574091281451750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 781c60742bac87e4eaeb6626cebcb629, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LastDamageAnimationPlayed: 
+  Hit_Forward_Medium_01: Hit_Forward_Medium_01
+  Hit_Forward_Medium_02: Hit_Forward_Medium_02
+  Hit_Backward_Medium_01: Hit_Backward_Medium_01
+  Hit_Backward_Medium_02: Hit_Backward_Medium_02
+  Hit_Right_Medium_01: Hit_Right_Medium_01
+  Hit_Right_Medium_02: Hit_Right_Medium_02
+  Hit_Left_Medium_01: Hit_Left_Medium_01
+  Hit_Left_Medium_02: Hit_Left_Medium_02
+  Forward_Medium_Damage: []
+  Backward_Medium_Damage: []
+  Right_Medium_Damage: []
+  Left_Medium_Damage: []
 --- !u!1 &3319070012446186227
 GameObject:
   m_ObjectHideFlags: 0
@@ -4569,6 +4585,60 @@ Transform:
   - {fileID: 6639819623890251781}
   m_Father: {fileID: 724720535535798958}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7168462301957121671
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 776336832246855446}
+  - component: {fileID: 6584717683878264637}
+  m_Layer: 6
+  m_Name: Navmesh Agent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &776336832246855446
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7168462301957121671}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2237765518554228426}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!195 &6584717683878264637
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7168462301957121671}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 1
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &7175207278380853234
 GameObject:
   m_ObjectHideFlags: 0

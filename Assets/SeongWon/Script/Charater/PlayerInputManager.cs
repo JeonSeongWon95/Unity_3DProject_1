@@ -287,6 +287,15 @@ public class PlayerInputManager : MonoBehaviour
         if (mPlayerManager == null)
             return;
 
+        if (mMovementAmount != 0)
+        {
+            mPlayerManager.mPlayerNetworkManager.mNetworkIsMoving.Value = true;
+        }
+        else 
+        {
+            mPlayerManager.mPlayerNetworkManager.mNetworkIsMoving.Value = false;
+        }
+
         if (mMovementAmount <= 0)
         {
             mMovementAmount = 0;

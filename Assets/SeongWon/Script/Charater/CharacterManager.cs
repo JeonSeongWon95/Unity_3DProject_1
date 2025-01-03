@@ -45,11 +45,6 @@ public class CharacterManager : NetworkBehaviour
     protected virtual void Start() 
     {
         IgnoreMyOwnColliders();
-
-        if (!GetComponent<NetworkObject>().IsSpawned)
-        {
-            GetComponent<NetworkObject>().Spawn();
-        }
     }
 
     protected virtual void Update() 
@@ -79,6 +74,18 @@ public class CharacterManager : NetworkBehaviour
     protected virtual void LateUpdate() 
     {
 
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        mCharacterNetworkManager.mNetworkIsMoving.OnValueChanged += mCharacterNetworkManager.OnIsMovingChanged;
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        mCharacterNetworkManager.mNetworkIsMoving.OnValueChanged -= mCharacterNetworkManager.OnIsMovingChanged;
     }
 
     public virtual IEnumerator ProcessDeathEvent(bool ManuallySelectDeathAnimation = false) 

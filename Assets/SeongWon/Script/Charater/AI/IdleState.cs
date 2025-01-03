@@ -11,7 +11,7 @@ public class IdleState : AIState
 
         if (mAiCharacter.mCharacterCombatManager.mCurrentTarget != null)
         {
-            return this;
+            return SwitchState(mAiCharacter, mAiCharacter.mPursueTarget);
         }
         else 
         {

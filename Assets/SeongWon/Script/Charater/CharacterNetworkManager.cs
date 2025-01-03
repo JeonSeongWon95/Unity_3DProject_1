@@ -10,7 +10,6 @@ public class CharacterNetworkManager : NetworkBehaviour
     [Header("Position")]
     public NetworkVariable<Vector3> mNetworkPosition = new NetworkVariable<Vector3>(Vector3.zero, 
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-
     public NetworkVariable<Quaternion> mNetworkRotation = new NetworkVariable<Quaternion>(Quaternion.identity,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
@@ -25,6 +24,8 @@ public class CharacterNetworkManager : NetworkBehaviour
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<float> mNetworkAnimatorMoveAmountParameter = new NetworkVariable<float>(0,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<bool> mNetworkIsMoving = new NetworkVariable<bool>(false,
+    NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     [Header("Target")]
     public NetworkVariable<ulong> mCurrentTargetNetworkObjectID = new NetworkVariable<ulong>(0,
@@ -90,6 +91,11 @@ public class CharacterNetworkManager : NetworkBehaviour
         {
             mCharacterManager.mCharacterCombatManager.mCurrentTarget = null;
         }
+    }
+
+    public void OnIsMovingChanged(bool Old, bool New)
+    {
+        mCharacterManager.mAnimator.SetBool("IsMoving", mNetworkIsMoving.Value);
     }
 
     [ServerRpc]
