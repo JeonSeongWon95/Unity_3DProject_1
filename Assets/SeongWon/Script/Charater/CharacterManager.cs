@@ -24,10 +24,6 @@ public class CharacterManager : NetworkBehaviour
 
     [Header("FLAGS")]
     public bool IsPerformingAction = false;
-    public bool ApplyRootMotion = false;
-    public bool IsGround = true;
-    public bool CanRotate = true;
-    public bool CanMove = true;
 
     protected virtual void Awake()
     {
@@ -49,7 +45,7 @@ public class CharacterManager : NetworkBehaviour
 
     protected virtual void Update() 
     {
-        mAnimator.SetBool("IsGround", IsGround);
+        mAnimator.SetBool("IsGround", mCharacterLocomotionManager.IsGround);
 
         if (IsOwner)
         {

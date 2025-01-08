@@ -81,6 +81,7 @@ public class TakeHealthDamageEffect : InstantCharacterEffect
             WorldSoundFXManager.Instance.PhysicsDamageSFX);
 
         characterManager.mCharacterSoundFXManager.PlaySoundFX(physicalDamageSFX);
+        characterManager.mCharacterSoundFXManager.PlayDamageGrunt();
     }
 
     private void PlayDirectionBasedDamageAnimation(CharacterManager characterManager) 

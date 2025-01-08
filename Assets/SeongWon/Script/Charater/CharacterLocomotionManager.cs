@@ -18,6 +18,10 @@ public class CharacterLocomotionManager : MonoBehaviour
 
     [Header("Flags")]
     public bool mIsRolling = false;
+    public bool IsGround = true;
+    public bool CanRotate = true;
+    public bool CanMove = true;
+
     protected virtual void Awake() 
     {
         mCharacterManager = GetComponent<CharacterManager>();
@@ -27,7 +31,7 @@ public class CharacterLocomotionManager : MonoBehaviour
     {
         HandleGroundCheck();
 
-        if (mCharacterManager.IsGround)
+        if (mCharacterManager.mCharacterLocomotionManager.IsGround)
         {
             if (mYVelocity.y < 0)
             {
@@ -55,12 +59,17 @@ public class CharacterLocomotionManager : MonoBehaviour
 
     protected void HandleGroundCheck() 
     {
-        mCharacterManager.IsGround = Physics.CheckSphere(mCharacterManager.transform.position,
+        IsGround = Physics.CheckSphere(mCharacterManager.transform.position,
             mGroundCheckSphereRadius, mGroundLayer);
     }
 
-    protected void OnDrawGizmosSelected()
+    public void EnableCanRotate() 
     {
-        //Gizmos.DrawSphere(mCharacterManager.transform.position, mGroundCheckSphereRadius);
+        CanRotate = true;
+    }
+
+    public void DisableCanRotate() 
+    {
+        CanRotate = false;
     }
 }

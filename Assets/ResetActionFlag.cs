@@ -15,9 +15,9 @@ public class ResetActionFlag : StateMachineBehaviour
         }
 
         mCharacterManager.IsPerformingAction = false;
-        mCharacterManager.ApplyRootMotion = false;
-        mCharacterManager.CanRotate = true;
-        mCharacterManager.CanMove = true;
+        mCharacterManager.mCharacterAnimatorManager.ApplyRootMotion = false;
+        mCharacterManager.mCharacterLocomotionManager.CanRotate = true;
+        mCharacterManager.mCharacterLocomotionManager.CanMove = true;
         mCharacterManager.mCharacterLocomotionManager.mIsRolling = false;
         mCharacterManager.mCharacterAnimatorManager.DisableCanDoCombo();
 

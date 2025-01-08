@@ -41,4 +41,7 @@ public class WeaponItem : Item
     [Header("Stamina Cost")]
     public int mBaseStaminaCost = 20;
     public float mLightAttackStaminaCostMultiplier = 0.9f;
+
+    [Header("Swinging Sound")]
+    public AudioClip[] mSwingingSound;
 }

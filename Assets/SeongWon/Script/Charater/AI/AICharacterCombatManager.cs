@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class AICharacterCombatManager : CharacterCombatManager
 {
+    protected AICharacterManager mAICharacterManager;
+
+    [Header("Action Recovery")]
+    public float mActionRecoveryTimer = 0;
+
     [Header("Target Information")]
+    public float mDistanceFromTarget;
     public float mViewableAngle;
     public Vector3 mTargetDirection;
 
@@ -13,11 +19,16 @@ public class AICharacterCombatManager : CharacterCombatManager
     public float mMinmumDetectionAngle = -35;
     public float mMaximumDetectionAngle = 35;
 
-    [Header("Rotation Variable")]
-    [SerializeField] float mRotateSpeed = 15.0f;
+    protected override void Awake()
+    {
+        base.Awake();
+
+        mLockOnTransform = GetComponentInChildren<LockOnTransform>().transform;
+        mAICharacterManager = GetComponent<AICharacterManager>();
+    }
+
     public void FindTargetOfSight(AICharacterManager AICharacter) 
     {
-
         if (mCurrentTarget != null)
             return;
 
@@ -54,23 +65,21 @@ public class AICharacterCombatManager : CharacterCombatManager
                     }
                     else 
                     {
-                        TargetDirection = TargetCharacter.transform.position - transform.position;
-                        mViewableAngle = WorldUtilityManager.Instance.GetAngleOfTarget(transform, TargetDirection);
                         AICharacter.mCharacterCombatManager.SetTarget(TargetCharacter);
-                        PivotTowardsTarget(AICharacter);
                     }
                 }
             }
         }
     }
 
-    public void PivotTowardsTarget(AICharacterManager mAiCharacter) 
+    public void HandleActionRecovery(AICharacterManager AICharacter) 
     {
-        if(mAiCharacter.IsPerformingAction)
-            return;
-
-        float smoothAngle = Mathf.LerpAngle(transform.eulerAngles.y, mViewableAngle, Time.deltaTime * mRotateSpeed);
-        Quaternion targetRotation = Quaternion.Euler(0, smoothAngle, 0);
-        mAiCharacter.transform.rotation = targetRotation;
+        if (mActionRecoveryTimer > 0) 
+        {
+            if (AICharacter.IsPerformingAction) 
+            {
+                mActionRecoveryTimer -= Time.deltaTime;
+            }
+        }
     }
 }

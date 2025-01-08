@@ -12,7 +12,7 @@ public class PlayerAnimatorManager : CharacterAnimatorManager
     }
     private void OnAnimatorMove()
     {
-        if (mPlayerManager.ApplyRootMotion)
+        if (mPlayerManager.mPlayerAnimatorManager.ApplyRootMotion)
         {
             Vector3 Velocity = mPlayerManager.mAnimator.deltaPosition;
             mPlayerManager.mCharaterController.Move(Velocity);

@@ -10,6 +10,9 @@ public class CharacterAnimatorManager : MonoBehaviour
     int vertical;
     int horizontal;
 
+    [Header("Flags")]
+    public bool ApplyRootMotion = false;
+
     [Header("Damage Animations")]
     public string LastDamageAnimationPlayed;
 
@@ -140,11 +143,11 @@ public class CharacterAnimatorManager : MonoBehaviour
         bool CanRotate = false, bool CanMove = false) 
     {
 
-        mCharaterManager.ApplyRootMotion = IsRootMotion;
+        mCharaterManager.mCharacterAnimatorManager.ApplyRootMotion = IsRootMotion;
         mCharaterManager.mAnimator.CrossFade(AnimationName, 0.2f);
         mCharaterManager.IsPerformingAction = IsPerformingAction;
-        mCharaterManager.CanRotate = CanRotate;
-        mCharaterManager.CanMove = CanMove;
+        mCharaterManager.mCharacterLocomotionManager.CanRotate = CanRotate;
+        mCharaterManager.mCharacterLocomotionManager.CanMove = CanMove;
 
         mCharaterManager.mCharacterNetworkManager.PlayTargetActionAnimationServerRpc(NetworkManager.Singleton.LocalClientId
             ,AnimationName, IsRootMotion);
@@ -155,11 +158,11 @@ public class CharacterAnimatorManager : MonoBehaviour
     {
         mCharaterManager.mCharacterCombatManager.mLastAttackAnimationPerformed = AnimationName;
         mCharaterManager.mCharacterCombatManager.mCurrentAttackType = NewAttackType;
-        mCharaterManager.ApplyRootMotion = IsRootMotion;
+        mCharaterManager.mCharacterAnimatorManager.ApplyRootMotion = IsRootMotion;
         mCharaterManager.mAnimator.CrossFade(AnimationName, 0.2f);
         mCharaterManager.IsPerformingAction = IsPerformingAction;
-        mCharaterManager.CanRotate = CanRotate;
-        mCharaterManager.CanMove = CanMove;
+        mCharaterManager.mCharacterLocomotionManager.CanRotate = CanRotate;
+        mCharaterManager.mCharacterLocomotionManager.CanMove = CanMove;
 
         mCharaterManager.mCharacterNetworkManager.PlayTargetAttackActionAnimationServerRpc(NetworkManager.Singleton.LocalClientId
             , AnimationName, IsRootMotion);

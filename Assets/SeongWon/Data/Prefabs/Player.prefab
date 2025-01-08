@@ -711,7 +711,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 181709560
+  GlobalObjectIdHash: 1884155771
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
@@ -738,15 +738,11 @@ MonoBehaviour:
   mCharacterAnimatorManager: {fileID: 0}
   mCharacterCombatManager: {fileID: 0}
   mCharacterSoundFXManager: {fileID: 0}
+  mCharacterLocomotionManager: {fileID: 0}
   mIsDead:
     m_InternalValue: 0
+  mCharacterGroup: 0
   IsPerformingAction: 0
-  ApplyRootMotion: 0
-  IsGround: 1
-  CanRotate: 1
-  CanMove: 1
-  mRespawnCharacter: 0
-  mSwitchRightWeapon: 0
   mPlayerLocomotionManager: {fileID: 0}
   mPlayerAnimatorManager: {fileID: 0}
   mPlayerNetworkManager: {fileID: 0}
@@ -774,6 +770,10 @@ MonoBehaviour:
   mYVelocity: {x: 0, y: 0, z: 0}
   mGroundYVelocity: -20
   mFallStartYVelocity: -5
+  mIsRolling: 0
+  IsGround: 1
+  CanRotate: 1
+  CanMove: 1
   mVerticalMovement: 0
   mHorizontalMovement: 0
   mMovementAmount: 0
@@ -835,6 +835,10 @@ MonoBehaviour:
   mNetworkAnimatorVerticalParameter:
     m_InternalValue: 0
   mNetworkAnimatorMoveAmountParameter:
+    m_InternalValue: 0
+  mNetworkIsMoving:
+    m_InternalValue: 0
+  mCurrentTargetNetworkObjectID:
     m_InternalValue: 0
   mNetworkIsSprint:
     m_InternalValue: 0
@@ -945,6 +949,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08dbb4d3e1a9d764d92431b0f5fabcad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ApplyRootMotion: 0
   LastDamageAnimationPlayed: 
   Hit_Forward_Medium_01: Hit_Forward_Medium_01
   Hit_Forward_Medium_02: Hit_Forward_Medium_02
@@ -1162,10 +1167,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06dd466470bcdf444b1ed0e58d34c43c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mLastAttackAnimationPerformed: 
   mCurrentTarget: {fileID: 0}
   mCurrentAttackType: 0
   mLockOnTransform: {fileID: 7938100202169160299}
   mCurrentWeaponBeingUsed: {fileID: 0}
+  mCanComboWithMainHandWeapon: 0
 --- !u!114 &4189869197089904969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1178,6 +1185,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ca2d0cb32096884ca54c94e888d13a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mDamageGrunts:
+  - {fileID: 8300000, guid: 36face8ac33b3814caa19d440d6d33fa, type: 3}
+  - {fileID: 8300000, guid: e5cec87f827407d4c80611da3e064acd, type: 3}
+  - {fileID: 8300000, guid: c9fcdbd8bb5bb9c42981a9ba28089d98, type: 3}
+  mAttackGrunts:
+  - {fileID: 8300000, guid: 1ac2be35c2391fb4db663b57419e06d0, type: 3}
+  - {fileID: 8300000, guid: 0d605f23065c7bd4985b70fb5e9ec22d, type: 3}
+  - {fileID: 8300000, guid: b859b702508e2294ba14b521d9ad4b93, type: 3}
 --- !u!1 &1223067050601040270 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1530746181723713175, guid: de13a7420582ded45a8d7d3f96889aca, type: 3}

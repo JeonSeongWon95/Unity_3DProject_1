@@ -8,7 +8,6 @@ public class IdleState : AIState
 {
     public override AIState Tick(AICharacterManager mAiCharacter)
     {
-
         if (mAiCharacter.mCharacterCombatManager.mCurrentTarget != null)
         {
             return SwitchState(mAiCharacter, mAiCharacter.mPursueTarget);

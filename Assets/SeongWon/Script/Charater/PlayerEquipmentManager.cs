@@ -230,10 +230,14 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
         if (mPlayerManager.mPlayerNetworkManager.mIsUsingRightHand.Value) 
         {
             mRightWeaponManager.mMeleeDamageCollider.EnableDamageCollider();
+            mPlayerManager.mCharacterSoundFXManager.PlaySoundFX(WorldSoundFXManager.Instance.ChooseRandomSFXFromArray(
+                mPlayerManager.mPlayerInventoryManager.mCurrentRightWeapon.mSwingingSound));
         }
         else if (mPlayerManager.mPlayerNetworkManager.mIsUsingLeftHand.Value)
         {
             mLeftWeaponManager.mMeleeDamageCollider.EnableDamageCollider();
+            mPlayerManager.mCharacterSoundFXManager.PlaySoundFX(WorldSoundFXManager.Instance.ChooseRandomSFXFromArray(
+                mPlayerManager.mPlayerInventoryManager.mCurrentRightWeapon.mSwingingSound));
         }
     }
 

@@ -19,7 +19,7 @@ public class ChargeAttackAction : WeaponItemAction
             return;
 
 
-        if (!PlayerPerformingAction.IsGround)
+        if (!PlayerPerformingAction.mCharacterLocomotionManager.IsGround)
             return;
 
         PerformChargeAttack(PlayerPerformingAction, WeaponPerformingAction);

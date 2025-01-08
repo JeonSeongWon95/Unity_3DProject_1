@@ -19,7 +19,7 @@ public class StrongAttackAction : WeaponItemAction
             return;
 
 
-        if (!PlayerPerformingAction.IsGround)
+        if (!PlayerPerformingAction.mPlayerLocomotionManager.IsGround)
             return;
 
         PerformStrongAttack(PlayerPerformingAction, WeaponPerformingAction);

@@ -16,7 +16,7 @@ public class AICharacterAnimatorManager : CharacterAnimatorManager
     {
         if (mAiCharacter.IsOwner)
         {
-            if (!mAiCharacter.IsGround)
+            if (!mAiCharacter.mAICharacterLocomotionManager.IsGround)
                 return;
 
             Vector3 Velocity = mAiCharacter.mAnimator.deltaPosition;
@@ -25,7 +25,7 @@ public class AICharacterAnimatorManager : CharacterAnimatorManager
         }
         else 
         {
-            if (!mAiCharacter.IsGround)
+            if (!mAiCharacter.mAICharacterLocomotionManager.IsGround)
                 return;
 
 

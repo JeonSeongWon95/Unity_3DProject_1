@@ -137,13 +137,13 @@ public class CharacterNetworkManager : NetworkBehaviour
     private void PerformActionAnimationFromServer(string AnimationName, bool ApplyRootMotion) 
     {
         mCharacterManager.mAnimator.CrossFade(AnimationName, 0.2f);
-        mCharacterManager.ApplyRootMotion = ApplyRootMotion;
+        mCharacterManager.mCharacterAnimatorManager.ApplyRootMotion = ApplyRootMotion;
     }
 
     private void PerformAttackActionAnimationFromServer(string AnimationName, bool ApplyRootMotion)
     {
         mCharacterManager.mAnimator.CrossFade(AnimationName, 0.2f);
-        mCharacterManager.ApplyRootMotion = ApplyRootMotion;
+        mCharacterManager.mCharacterAnimatorManager.ApplyRootMotion = ApplyRootMotion;
     }
 
     [ServerRpc(RequireOwnership = false)]

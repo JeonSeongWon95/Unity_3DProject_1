@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class AICharacterLocomotionManager : CharacterLocomotionManager
 {
-    public void RotateTowardsAgent(AICharacterManager mAICharacter) 
+    public void RotateTowardsAgent(AICharacterManager mAIcharacter) 
     {
-        if (mAICharacter.mAICharacterNetworkManager.mNetworkIsMoving.Value) 
+        if (mAIcharacter.mAICharacterNetworkManager.mNetworkIsMoving.Value) 
         {
-            mAICharacter.transform.rotation = mAICharacter.mNavMeshAgent.transform.rotation;
+            mAIcharacter.transform.rotation = mAIcharacter.mNavMeshAgent.transform.rotation;
         }
     }
 }

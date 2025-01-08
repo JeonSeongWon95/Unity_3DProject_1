@@ -81,7 +81,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     private void HandleGroundedMovement()
     {
 
-        if (!mPlayerManager.CanMove)
+        if (!mPlayerManager.mPlayerLocomotionManager.CanMove)
             return;
 
         GetMovementInputValues();
@@ -111,7 +111,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     private void HandleFreeFallMovement() 
     {
-        if (!mPlayerManager.IsGround) 
+        if (!mPlayerManager.mPlayerLocomotionManager.IsGround) 
         {
             Vector3 mFreeFallDirection = PlayerCamera.Instance.transform.forward * PlayerInputManager.Instance.mVerticalInput;
             mFreeFallDirection += PlayerCamera.Instance.transform.right * PlayerInputManager.Instance.mHorizontalInput;
@@ -126,7 +126,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         if (mPlayerManager.mIsDead.Value)
             return;
 
-        if (!mPlayerManager.CanRotate)
+        if (!mPlayerManager.mPlayerLocomotionManager.CanRotate)
             return;
 
         if (mPlayerManager.mPlayerNetworkManager.mNetworkIsLockOn.Value)
@@ -223,7 +223,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         if (mPlayerManager.mPlayerNetworkManager.mNetworkCurrentStamina.Value <= 0)
             return;
 
-        if (mPlayerManager.mPlayerNetworkManager.mNetworkIsJumping.Value || !mPlayerManager.IsGround)
+        if (mPlayerManager.mPlayerNetworkManager.mNetworkIsJumping.Value || !mPlayerManager.mPlayerLocomotionManager.IsGround)
             return;
 
         mPlayerManager.mPlayerAnimatorManager.PlayTargetActionAnimation("Jump_Up", false);

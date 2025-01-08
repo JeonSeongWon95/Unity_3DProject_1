@@ -28,8 +28,14 @@ MonoBehaviour:
   mLightningDamage: 0
   mPoiseDamage: 25
   Light_Attack_01_Modifier: 1.1
+  Light_Attack_02_Modifier: 1.3
+  Strong_Attack_01_Modifier: 1.5
+  Strong_Attack_02_Modifier: 2
+  Charge_Attack_01_Modifier: 1.3
+  Charge_Attack_02_Modifier: 1.6
   OH_NomalAction: {fileID: 11400000, guid: a6fe9e5599a69a24d9112eca6e100e95, type: 2}
   OH_StrongAction: {fileID: 11400000, guid: 63851bec1c71fc44b83f838292de7b95, type: 2}
   OH_ChargeAction: {fileID: 11400000, guid: cb7a90997902db04792ddbb376457391, type: 2}
   mBaseStaminaCost: 20
   mLightAttackStaminaCostMultiplier: 0.9
+  mSwingingSound: []

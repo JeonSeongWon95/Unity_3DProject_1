@@ -19,15 +19,10 @@ public class PursueTargetState : AIState
         if (!mAiCharacter.mNavMeshAgent.enabled)
             mAiCharacter.mNavMeshAgent.enabled = true;
 
-        if (mAiCharacter.mAICharacterCombatManager.mViewableAngle <
-            mAiCharacter.mAICharacterCombatManager.mMinmumDetectionAngle ||
-            mAiCharacter.mAICharacterCombatManager.mViewableAngle >
-            mAiCharacter.mAICharacterCombatManager.mMaximumDetectionAngle)
-        {
-            mAiCharacter.mAICharacterCombatManager.PivotTowardsTarget(mAiCharacter);
-        }
-
         mAiCharacter.mAICharacterLocomotionManager.RotateTowardsAgent(mAiCharacter);
+
+        if(mAiCharacter.mAICharacterCombatManager.mDistanceFromTarget <= mAiCharacter.mNavMeshAgent.stoppingDistance)
+            return SwitchState(mAiCharacter, mAiCharacter.mCombatStance);
 
         NavMeshPath mPath = new NavMeshPath();
 

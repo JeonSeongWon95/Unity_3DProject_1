@@ -18,6 +18,8 @@ public class AICharacterManager : CharacterManager
     [Header("States")]
     public IdleState mIdle;
     public PursueTargetState mPursueTarget;
+    public CombatStanceState mCombatStance;
+    public AttackState mAttack;
 
     protected override void Awake()
     {
@@ -31,6 +33,13 @@ public class AICharacterManager : CharacterManager
         mPursueTarget = Instantiate(mPursueTarget);
 
         mCurrentState = mIdle;
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+        mAICharacterCombatManager.HandleActionRecovery(this);
     }
 
     protected override void FixedUpdate()
@@ -61,8 +70,8 @@ public class AICharacterManager : CharacterManager
             mAICharacterCombatManager.mTargetDirection = mAICharacterCombatManager.mCurrentTarget.transform.position -
                 transform.position;
 
-            mAICharacterCombatManager.mViewableAngle = WorldUtilityManager.Instance.GetAngleOfTarget(transform,
-                mAICharacterCombatManager.mTargetDirection);
+            mAICharacterCombatManager.mDistanceFromTarget = Vector3.Distance(transform.position,
+                mAICharacterCombatManager.mCurrentTarget.transform.position);
         }
 
         if (mNavMeshAgent.enabled)

@@ -19,7 +19,7 @@ public class LightAttackWeaponAction : WeaponItemAction
             return;
 
 
-        if (!PlayerPerformingAction.IsGround)
+        if (!PlayerPerformingAction.mPlayerLocomotionManager.IsGround)
             return;
 
         PerformLightAttack(PlayerPerformingAction, WeaponPerformingAction);
