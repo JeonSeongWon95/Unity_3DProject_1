@@ -75,13 +75,18 @@ public class CharacterManager : NetworkBehaviour
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        mAnimator.SetBool("IsMoving", mCharacterNetworkManager.mNetworkIsMoving.Value);
+        mCharacterNetworkManager.OnIsActiveChanged(false, mCharacterNetworkManager.mNetworkIsActive.Value);
+
         mCharacterNetworkManager.mNetworkIsMoving.OnValueChanged += mCharacterNetworkManager.OnIsMovingChanged;
+        mCharacterNetworkManager.mNetworkIsActive.OnValueChanged += mCharacterNetworkManager.OnIsActiveChanged;
     }
 
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
         mCharacterNetworkManager.mNetworkIsMoving.OnValueChanged -= mCharacterNetworkManager.OnIsMovingChanged;
+        mCharacterNetworkManager.mNetworkIsActive.OnValueChanged -= mCharacterNetworkManager.OnIsActiveChanged;
     }
 
     public virtual IEnumerator ProcessDeathEvent(bool ManuallySelectDeathAnimation = false) 

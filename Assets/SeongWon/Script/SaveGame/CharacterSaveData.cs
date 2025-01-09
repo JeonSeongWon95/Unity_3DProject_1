@@ -15,13 +15,23 @@ public class CharacterSaveData
     public int mVitality;
     public int mEndurace;
 
+    [Header("Bosses")]
+    public SerializableDictionary<int, bool> mBossesAwakened;
+    public SerializableDictionary<int, bool> mBossesDefeated;
+
     [Header("Resource")]
     public float mCurrentHealth;
     public float mCurrentStamina;
 
-
     [Header("Game Info")]
     public float mSecondsPlayed;
     public int mSceneIndex;
+
+
+    public CharacterSaveData() 
+    {
+        mBossesAwakened = new SerializableDictionary<int, bool>();
+        mBossesDefeated = new SerializableDictionary<int, bool>();
+    }
  
 }

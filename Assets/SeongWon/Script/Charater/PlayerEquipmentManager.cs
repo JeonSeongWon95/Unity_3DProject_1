@@ -237,7 +237,7 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
         {
             mLeftWeaponManager.mMeleeDamageCollider.EnableDamageCollider();
             mPlayerManager.mCharacterSoundFXManager.PlaySoundFX(WorldSoundFXManager.Instance.ChooseRandomSFXFromArray(
-                mPlayerManager.mPlayerInventoryManager.mCurrentRightWeapon.mSwingingSound));
+                mPlayerManager.mPlayerInventoryManager.mCurrentLeftWeapon.mSwingingSound));
         }
     }
 

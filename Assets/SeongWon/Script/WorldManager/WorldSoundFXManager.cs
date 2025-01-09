@@ -33,7 +33,7 @@ public class WorldSoundFXManager : MonoBehaviour
 
     public AudioClip ChooseRandomSFXFromArray(AudioClip[] array) 
     {
-        int Index = Random.Range(0, array.Length);
+        int Index = Random.Range(0, array.Length - 1);
         return array[Index];
     }
 

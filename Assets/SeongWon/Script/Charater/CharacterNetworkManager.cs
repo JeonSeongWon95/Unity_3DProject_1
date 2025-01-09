@@ -7,6 +7,10 @@ public class CharacterNetworkManager : NetworkBehaviour
 {
     CharacterManager mCharacterManager;
 
+    [Header("Active")]
+    public NetworkVariable<bool> mNetworkIsActive = new NetworkVariable<bool>(true, NetworkVariableReadPermission.Everyone,
+        NetworkVariableWritePermission.Owner);
+
     [Header("Position")]
     public NetworkVariable<Vector3> mNetworkPosition = new NetworkVariable<Vector3>(Vector3.zero, 
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -96,6 +100,11 @@ public class CharacterNetworkManager : NetworkBehaviour
     public void OnIsMovingChanged(bool Old, bool New)
     {
         mCharacterManager.mAnimator.SetBool("IsMoving", mNetworkIsMoving.Value);
+    }
+
+    public virtual void OnIsActiveChanged(bool Old, bool New) 
+    {
+        gameObject.SetActive(mNetworkIsActive.Value);
     }
 
     [ServerRpc]

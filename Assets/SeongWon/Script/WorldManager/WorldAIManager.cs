@@ -9,7 +9,7 @@ public class WorldAIManager : MonoBehaviour
     static public WorldAIManager Instance;
 
     [Header("Characters")]
-    [SerializeField] GameObject[] mAICharacters;
+    [SerializeField] List<AICharacterSpawner> mCharacterSpawners;
     [SerializeField] List<GameObject> mSpawnedCharacters;
 
     private void Awake()
@@ -25,36 +25,12 @@ public class WorldAIManager : MonoBehaviour
 
     }
 
-    private void Start()
+    public void SpawnCharacter(AICharacterSpawner AISpawner) 
     {
-        if (NetworkManager.Singleton.IsServer) 
+        if (NetworkManager.Singleton.IsServer)
         {
-            StartCoroutine(WaitForSceneToLoadThenSpawnCharacters());
-        }
-    }
-
-    private void Update()
-    {
-        
-    }
-
-    private IEnumerator WaitForSceneToLoadThenSpawnCharacters() 
-    {
-        while (!SceneManager.GetActiveScene().isLoaded) 
-        {
-            yield return null;
-        }
-
-        SpawnAllCharacters();
-    }
-
-    private void SpawnAllCharacters() 
-    {
-        foreach (var character in mAICharacters)
-        {
-            GameObject InstantiatedCharacter = Instantiate(character);
-            InstantiatedCharacter.GetComponent<NetworkObject>().Spawn();
-            mSpawnedCharacters.Add(InstantiatedCharacter);
+            mCharacterSpawners.Add(AISpawner);
+            AISpawner.AttemptToSpawn();
         }
     }
 
