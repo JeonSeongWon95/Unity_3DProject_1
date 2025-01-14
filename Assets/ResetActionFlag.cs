@@ -24,6 +24,7 @@ public class ResetActionFlag : StateMachineBehaviour
         if (mCharacterManager.IsOwner) 
         {
             mCharacterManager.mCharacterNetworkManager.mNetworkIsJumping.Value = false;
+            mCharacterManager.mCharacterNetworkManager.mNetworkIsInVlnerable.Value = false;
         }
     }
 

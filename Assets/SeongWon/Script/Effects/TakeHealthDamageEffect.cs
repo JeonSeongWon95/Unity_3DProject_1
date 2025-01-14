@@ -36,6 +36,9 @@ public class TakeHealthDamageEffect : InstantCharacterEffect
     public Vector3 mContactPoint;
     public override void ProcessEffect(CharacterManager NewCharacterManager)
     {
+        if (NewCharacterManager.mCharacterNetworkManager.mNetworkIsInVlnerable.Value)
+            return;
+
         base.ProcessEffect(NewCharacterManager);
 
         if (NewCharacterManager.mIsDead.Value)

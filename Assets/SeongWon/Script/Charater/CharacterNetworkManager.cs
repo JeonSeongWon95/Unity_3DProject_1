@@ -42,6 +42,8 @@ public class CharacterNetworkManager : NetworkBehaviour
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<bool> mNetworkIsLockOn = new NetworkVariable<bool>(false,
         NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<bool> mNetworkIsInVlnerable = new NetworkVariable<bool>(false,
+        NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     [Header("Status")]
     public NetworkVariable<int> mNetworkEndurence = new NetworkVariable<int>(1,

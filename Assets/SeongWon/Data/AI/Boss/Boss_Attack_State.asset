@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a16565ec93eb75841abdbeb6b11f7953, type: 3}
-  m_Name: Attack State
+  m_Name: Boss_Attack_State
   m_EditorClassIdentifier: 
   mCurrentAttack: {fileID: 0}
   mWillPerformCombo: 0
